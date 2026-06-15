@@ -1,0 +1,103 @@
+2025-08-20 14:59:29,719 - WARNING - [timeout] decision: is_alive=True hp1_since=never switch_since=never counter_before=0
+2025-08-20 14:59:29,892 - WARNING - [timeout] last_attacker=None
+2025-08-20 14:59:30,354 - INFO - [contact] after_switch: slot=1 name='ee' deadline_in=2.5s
+2025-08-20 14:59:30,354 - INFO - [engage] burst_after_switch: start
+2025-08-20 14:59:30,987 - WARNING - [timeout] switched: cmd=NEXT_TARGET1 counter_after=1 next_timer_in=0.30s
+2025-08-20 14:59:40,753 - INFO - [contact] contact_ok: keep current target
+2025-08-20 14:59:49,550 - WARNING - [watchdog] idle_kick: no activity>=3.5s, last_attacker=None, sending NEXT_TARGET1 (priority), counter_before=1
+2025-08-20 14:59:50,068 - INFO - [contact] after_switch: slot=1 name='' deadline_in=2.5s
+2025-08-20 14:59:50,073 - INFO - [engage] burst_after_switch: start
+2025-08-20 15:00:21,019 - INFO - [decide] target_switch: counter_before=1 cmd=NEXT_TARGET2
+2025-08-20 15:00:21,205 - INFO - [contact] after_switch: slot=2 name='ee' deadline_in=2.5s
+2025-08-20 15:00:21,205 - INFO - [engage] burst_after_switch: start
+2025-08-20 15:00:21,831 - INFO - [fallback] scheduled_to_target1 at +3.50s (set_ts=1755673217.26)
+2025-08-20 15:00:21,831 - INFO - [decide] target_switch_done: counter_after=0 next_timer_in=0.31s
+2025-08-20 15:00:23,265 - INFO - [fallback] evaluate_engage: set_ts=1755673217.26 last_attack=1755673221.83 keepalive_attack=1755673217.96 last_red=1755673191.59 has_real_attack=True hp1_after=False dwell_ok=False under_attack=False => engaged=False
+2025-08-20 15:00:23,265 - WARNING - [fallback] trigger: to_target1 reason=no_engage counter_before=0
+2025-08-20 15:00:23,637 - INFO - [contact] after_switch: slot=1 name='ee' deadline_in=2.5s
+2025-08-20 15:00:23,637 - INFO - [engage] burst_after_switch: start
+2025-08-20 15:00:36,469 - INFO - [decide] target_switch: counter_before=1 cmd=NEXT_TARGET2
+2025-08-20 15:00:36,654 - INFO - [contact] after_switch: slot=2 name='ee' deadline_in=2.5s
+2025-08-20 15:00:36,655 - INFO - [engage] burst_after_switch: start
+2025-08-20 15:00:37,333 - INFO - [fallback] scheduled_to_target1 at +3.50s (set_ts=1755673225.22)
+2025-08-20 15:00:37,333 - INFO - [decide] target_switch_done: counter_after=0 next_timer_in=0.27s
+2025-08-20 15:00:38,438 - WARNING - [timeout] decision: is_alive=False hp1_since=15.4s ago switch_since=13.0s ago counter_before=0
+2025-08-20 15:00:38,578 - WARNING - [timeout] last_attacker=None
+2025-08-20 15:00:38,786 - INFO - [contact] after_switch: slot=1 name='ee' deadline_in=2.5s
+2025-08-20 15:00:38,786 - INFO - [engage] burst_after_switch: start
+2025-08-20 15:00:39,267 - WARNING - [timeout] switched: cmd=NEXT_TARGET1 counter_after=1 next_timer_in=0.22s
+2025-08-20 15:00:40,520 - INFO - [contact] after_switch: slot=2 name='ee' deadline_in=2.5s
+2025-08-20 15:00:40,520 - INFO - [engage] burst_after_switch: start
+2025-08-20 15:00:42,370 - INFO - [contact] after_switch: slot=1 name='ee' deadline_in=2.5s
+2025-08-20 15:00:42,370 - INFO - [engage] burst_after_switch: start
+2025-08-20 15:00:44,189 - INFO - [contact] after_switch: slot=2 name='ee' deadline_in=2.5s
+2025-08-20 15:00:44,189 - INFO - [engage] burst_after_switch: start
+2025-08-20 15:00:46,119 - INFO - [contact] after_switch: slot=1 name='ee' deadline_in=2.5s
+2025-08-20 15:00:46,120 - INFO - [engage] burst_after_switch: start
+2025-08-20 15:00:47,885 - INFO - [contact] after_switch: slot=2 name='ee' deadline_in=2.5s
+2025-08-20 15:00:47,885 - INFO - [engage] burst_after_switch: start
+2025-08-20 15:01:37,567 - INFO - [contact] no_contact_switch: active_slot=2 -> NEXT_TARGET1
+2025-08-20 15:01:39,751 - INFO - [contact] after_switch: slot=1 name='ee' deadline_in=2.5s
+2025-08-20 15:01:39,751 - INFO - [engage] burst_after_switch: start
+2025-08-20 15:01:41,638 - INFO - [fallback] evaluate_engage: set_ts=1755673247.57 last_attack=1755673300.33 keepalive_attack=1755673229.34 last_red=1755673222.81 has_real_attack=True hp1_after=False dwell_ok=False under_attack=False => engaged=False
+2025-08-20 15:01:41,638 - WARNING - [fallback] trigger: to_target1 reason=no_engage counter_before=0
+2025-08-20 15:01:42,024 - INFO - [contact] after_switch: slot=1 name='ee' deadline_in=2.5s
+2025-08-20 15:01:42,024 - INFO - [engage] burst_after_switch: start
+2025-08-20 15:01:43,935 - INFO - [contact] after_switch: slot=2 name='ee' deadline_in=2.5s
+2025-08-20 15:01:43,935 - INFO - [engage] burst_after_switch: start
+2025-08-20 15:01:45,636 - INFO - [contact] after_switch: slot=1 name='ee' deadline_in=2.5s
+2025-08-20 15:01:45,636 - INFO - [engage] burst_after_switch: start
+2025-08-20 15:01:47,501 - INFO - [contact] after_switch: slot=2 name='ee' deadline_in=2.5s
+2025-08-20 15:01:47,501 - INFO - [engage] burst_after_switch: start
+2025-08-20 15:01:49,269 - INFO - [contact] after_switch: slot=1 name='ee' deadline_in=2.5s
+2025-08-20 15:01:49,269 - INFO - [engage] burst_after_switch: start
+2025-08-20 15:54:54,582 - WARNING - [timeout] decision: is_alive=False hp1_since=never switch_since=never counter_before=0
+2025-08-20 15:54:54,582 - WARNING - [timeout] last_attacker=None
+2025-08-20 15:54:54,749 - INFO - [contact] after_switch: slot=1 name='Po' deadline_in=2.5s
+2025-08-20 15:54:54,750 - INFO - [engage] burst_after_switch: start
+2025-08-20 15:54:55,264 - WARNING - [timeout] switched: cmd=NEXT_TARGET1 counter_after=1 next_timer_in=0.21s
+2025-08-20 15:54:55,552 - INFO - [contact] after_switch: slot=2 name='Po' deadline_in=2.5s
+2025-08-20 15:54:55,565 - INFO - [engage] burst_after_switch: start
+2025-08-20 15:54:56,594 - INFO - [contact] after_switch: slot=1 name='Po' deadline_in=2.5s
+2025-08-20 15:54:56,594 - INFO - [engage] burst_after_switch: start
+2025-08-20 15:54:57,598 - INFO - [contact] after_switch: slot=2 name='Po' deadline_in=2.5s
+2025-08-20 15:54:57,598 - INFO - [engage] burst_after_switch: start
+2025-08-20 15:54:58,586 - INFO - [contact] after_switch: slot=1 name='Po' deadline_in=2.5s
+2025-08-20 15:54:58,586 - INFO - [engage] burst_after_switch: start
+2025-08-20 15:55:59,446 - INFO - [contact] no_contact_switch: active_slot=1 -> NEXT_TARGET2
+2025-08-20 15:55:59,577 - INFO - [contact] after_switch: slot=2 name='ee' deadline_in=2.5s
+2025-08-20 15:55:59,577 - INFO - [engage] burst_after_switch: start
+2025-08-20 15:56:00,517 - INFO - [contact] after_switch: slot=2 name='ee' deadline_in=2.5s
+2025-08-20 15:56:00,517 - INFO - [engage] burst_after_switch: start
+2025-08-20 15:56:01,448 - INFO - [contact] after_switch: slot=1 name='ee' deadline_in=2.5s
+2025-08-20 15:56:01,448 - INFO - [engage] burst_after_switch: start
+2025-08-20 15:56:02,481 - INFO - [contact] after_switch: slot=2 name='ee' deadline_in=2.5s
+2025-08-20 15:56:02,481 - INFO - [engage] burst_after_switch: start
+2025-08-20 15:56:03,448 - INFO - [contact] after_switch: slot=1 name='ee' deadline_in=2.5s
+2025-08-20 15:56:03,448 - INFO - [engage] burst_after_switch: start
+2025-08-20 15:56:04,467 - INFO - [contact] after_switch: slot=2 name='ee' deadline_in=2.5s
+2025-08-20 15:56:04,467 - INFO - [engage] burst_after_switch: start
+2025-08-20 15:56:05,449 - INFO - [contact] after_switch: slot=1 name='ee' deadline_in=2.5s
+2025-08-20 15:56:05,450 - INFO - [engage] burst_after_switch: start
+2025-08-20 15:56:06,448 - INFO - [contact] after_switch: slot=2 name='ee' deadline_in=2.5s
+2025-08-20 15:56:06,448 - INFO - [engage] burst_after_switch: start
+2025-08-20 15:56:07,480 - INFO - [contact] after_switch: slot=1 name='ee' deadline_in=2.5s
+2025-08-20 15:56:07,480 - INFO - [engage] burst_after_switch: start
+2025-08-20 15:56:08,451 - INFO - [contact] after_switch: slot=2 name='ee' deadline_in=2.5s
+2025-08-20 15:56:08,451 - INFO - [engage] burst_after_switch: start
+2025-08-20 15:56:09,466 - INFO - [contact] after_switch: slot=1 name='ee' deadline_in=2.5s
+2025-08-20 15:56:09,466 - INFO - [engage] burst_after_switch: start
+2025-08-20 15:56:10,466 - INFO - [contact] after_switch: slot=2 name='ee' deadline_in=2.5s
+2025-08-20 15:56:10,467 - INFO - [engage] burst_after_switch: start
+2025-08-20 15:56:11,484 - INFO - [contact] after_switch: slot=1 name='ee' deadline_in=2.5s
+2025-08-20 15:56:11,485 - INFO - [engage] burst_after_switch: start
+2025-08-20 15:56:12,468 - INFO - [contact] after_switch: slot=2 name='ee' deadline_in=2.5s
+2025-08-20 15:56:12,479 - INFO - [engage] burst_after_switch: start
+2025-08-20 15:56:13,471 - INFO - [contact] after_switch: slot=1 name='ee' deadline_in=2.5s
+2025-08-20 15:56:13,471 - INFO - [engage] burst_after_switch: start
+2025-08-20 15:56:14,485 - INFO - [contact] after_switch: slot=2 name='ee' deadline_in=2.5s
+2025-08-20 15:56:14,485 - INFO - [engage] burst_after_switch: start
+2025-08-20 15:56:15,535 - INFO - [contact] after_switch: slot=1 name='ee' deadline_in=2.5s
+2025-08-20 15:56:15,536 - INFO - [engage] burst_after_switch: start
+2025-08-20 15:56:16,555 - INFO - [contact] after_switch: slot=2 name='ee' deadline_in=2.5s
+2025-08-20 15:56:16,555 - INFO - [engage] burst_after_switch: start

@@ -1,0 +1,67 @@
+{
+    "is_visible": false,
+    "elements_positions": {
+        "TARGET_DAMAGED_HP_POINT": {
+            "x": 1033,
+            "y": 2
+        },
+        "NAME_SEARCH_AREA": {
+            "x": 701,
+            "y": 153
+        },
+        "NAME_SEARCH_AREA_REL": {
+            "x": -943,
+            "y": 740
+        },
+        "GREEN_PIXEL_SEARCH_AREA_REL": {
+            "x": 1208,
+            "y": 903
+        },
+        "SKILL_RESET_POINT_REL": {
+            "x": 496,
+            "y": 950
+        },
+        "MP_RECT_REL": {
+            "x": 119,
+            "y": 83
+        },
+        "CHAR_MP_POINT_REL": {
+            "x": 69,
+            "y": 79
+        },
+        "CHAR_HP_POINT_REL": {
+            "x": 145,
+            "y": 59
+        },
+        "HP1_MONSTER_POINT_REL": {
+            "x": 666,
+            "y": 5
+        },
+        "TARGET_DAMAGED_HP_POINT_REL": {
+            "x": 928,
+            "y": 3
+        },
+        "FULL_HP_POINT_REL": {
+            "x": 1018,
+            "y": 4
+        }
+    },
+    "pos_x": 1557,
+    "pos_y": 827,
+    "button_states": {
+        "mp_skill": true
+    },
+    "pause_overlay_pos_x": 8,
+    "pause_overlay_pos_y": 362,
+    "element_visibility_states": {
+        "FULL_HP_POINT_REL": true,
+        "NAME_SEARCH_AREA_REL": true,
+        "CHAR_HP_POINT_REL": true,
+        "CHAR_MP_POINT_REL": true,
+        "DOUBLE_CLICK_POINT_REL": true,
+        "GREEN_PIXEL_SEARCH_AREA_REL": true,
+        "HP1_MONSTER_POINT_REL": true,
+        "SKILL_RESET_POINT_REL": true,
+        "TARGET_DAMAGED_HP_POINT_REL": true
+    }
+}

@@ -1,0 +1,3 @@
+В терминале ввести
+CD D:\SopskaPososkaAutomatic-master                                                                                                      
+pyinstaller --noconfirm --onedir --name main --hidden-import la2_bot.config.config_lu4 --hidden-import la2_bot.config.config_mw .\main.py

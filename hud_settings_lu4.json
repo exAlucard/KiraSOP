@@ -1,0 +1,63 @@
+{
+    "HUD_ELEMENT_ALPHA": 0.5,
+    "HUD_LABELS": {
+        "TARGET_HP_1_POINT": "Пиксель 1 HP цели",
+        "TARGET_HP_DAMAGED_POINT": "Пиксель поврежденной цели",
+        "TARGET_HP_FULL_POINT": "Пиксель полного HP цели",
+        "CHAR_HP_POINT": "Пиксель HP персонажа",
+        "CHAR_MP_POINT": "Пиксель MP персонажа",
+        "SKILL_RESET_POINT": "Пиксель сброса скилла",
+        "DOUBLE_CLICK_POINT": "Точка двойного клика",
+        "HP_RECT": "Область OCR HP персонажа",
+        "MP_RECT": "Область OCR MP персонажа",
+        "GREEN_PIXEL_SEARCH_AREA": "Зона поиска зелёного пикселя",
+        "NAME_SEARCH_AREA": "Зона поиска имени моба",
+        "POTION_INTERVAL": "Интервал HP Банки",
+        "MP_SKILL_INTERVAL": "Интервал MP Скилла",
+        "NEXT_TARGET_MIN": "Мин. интервал NEXT TARGET",
+        "NEXT_TARGET_MAX": "Макс. интервал NEXT TARGET",
+        "LOOT_REPEAT_COUNT": "Кол-во лута"
+    },
+    "HUD_POSITION_X": 0,
+    "HUD_POSITION_Y": 0,
+    "is_visible": false,
+    "elements_positions": {
+        "GREEN_PIXEL_SEARCH_AREA_REL": {
+            "x": 1105,
+            "y": 912
+        },
+        "DOUBLE_CLICK_POINT_REL": {
+            "x": 901,
+            "y": 459
+        },
+        "NAME_SEARCH_AREA_REL": {
+            "x": -6,
+            "y": 129
+        }
+    },
+    "element_visibility_states": {
+        "CHAR_HP_POINT_REL": true,
+        "CHAR_MP_POINT_REL": true,
+        "DOUBLE_CLICK_POINT_REL": true,
+        "GREEN_PIXEL_SEARCH_AREA_REL": true,
+        "HP_RECT_REL": true,
+        "MP_RECT_REL": true,
+        "NAME_SEARCH_AREA_REL": true,
+        "SKILL_RESET_POINT_REL": true,
+        "TARGET_HP_1_POINT_REL": true,
+        "TARGET_HP_DAMAGED_POINT_REL": true,
+        "TARGET_HP_FULL_POINT_REL": true,
+        "FLAGSTOP_POINT_REL": true,
+        "GREEN_PIXEL_POINT_REL": true
+    },
+    "pos_x": 1576,
+    "pos_y": 785,
+    "debug_overlay_pos_x": 512,
+    "debug_overlay_pos_y": 219,
+    "pause_overlay_pos_x": 347,
+    "pause_overlay_pos_y": 102,
+    "button_states": {
+        "target_count_mode": 2,
+        "buffs": false
+    }
+}

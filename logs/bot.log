@@ -1,0 +1,372 @@
+2025-08-20 14:55:17,980 - window_manager - INFO - WindowManager initialized with process: 'lu4.bin', title: 'LU4'
+2025-08-20 14:55:55,421 - window_manager - INFO - WindowManager initialized with process: 'lu4.bin', title: 'LU4'
+2025-08-20 14:56:03,083 - window_manager - INFO - WindowManager initialized with process: 'lu4.bin', title: 'LU4'
+2025-08-20 14:56:03,089 - __main__ - INFO - ArduinoInvoker attached to ThreatManager
+2025-08-20 14:56:03,089 - __main__ - INFO - Starting bot overlay...
+2025-08-20 14:56:03,090 - __main__ - INFO - Starting bot overlay...
+2025-08-20 14:56:03,090 - __main__ - INFO - Bot initialized and waiting for start command...
+2025-08-20 14:56:03,138 - __main__ - INFO - Bot is in PAUSED state. Click the start button in the overlay to begin.
+2025-08-20 14:56:03,140 - window_manager - INFO - Found matching window:
+  Title: 'LU4  '
+  Class: 'UnrealWindow'
+  Process: 'lu4.bin' (PID: 19504)
+  Handle: 11275674
+2025-08-20 14:56:03,141 - __main__ - INFO - Initializing game coordinates...
+2025-08-20 14:56:03,141 - __main__ - INFO - Coordinates already initialized
+2025-08-20 14:56:03,141 - __main__ - INFO - Starting background processes...
+2025-08-20 14:56:03,142 - spoil_manager - INFO - [spoil_process] Поток спойла запущен.
+2025-08-20 14:56:03,142 - spoil_manager - INFO - [spoil_process] Поток спойла запущен.
+2025-08-20 14:56:03,142 - __main__ - INFO - Spoil process started
+2025-08-20 14:56:03,143 - __main__ - INFO - Beacon return process started
+2025-08-20 14:56:03,146 - __main__ - INFO - Green pixel monitoring started
+2025-08-20 14:56:03,146 - __main__ - INFO - All background processes started successfully
+2025-08-20 14:56:03,146 - __main__ - INFO - Bot is now active and monitoring the game
+2025-08-20 14:57:09,332 - window_manager - INFO - Found matching window:
+  Title: 'LU4  '
+  Class: 'UnrealWindow'
+  Process: 'lu4.bin' (PID: 19504)
+  Handle: 11275674
+2025-08-20 14:59:26,694 - bot_overlay - INFO - Bot started
+2025-08-20 14:59:27,063 - __main__ - INFO - Pause event cleared (bot started)
+2025-08-20 14:59:27,471 - spoil_manager - INFO - [spoil_process] Первый спойл ЗАЧТЕН как успешный. Спойл заблокирован до смерти цели.
+2025-08-20 14:59:28,077 - __main__ - INFO - Initializing game coordinates...
+2025-08-20 14:59:28,077 - __main__ - INFO - Coordinates already initialized
+2025-08-20 14:59:28,077 - __main__ - INFO - Starting background processes...
+2025-08-20 14:59:28,078 - spoil_manager - INFO - [spoil_process] Поток спойла запущен.
+2025-08-20 14:59:28,078 - spoil_manager - INFO - [spoil_process] Поток спойла запущен.
+2025-08-20 14:59:28,078 - __main__ - INFO - Spoil process started
+2025-08-20 14:59:28,078 - __main__ - INFO - Beacon return process started
+2025-08-20 14:59:28,079 - __main__ - INFO - Green pixel monitoring started
+2025-08-20 14:59:28,079 - __main__ - INFO - All background processes started successfully
+2025-08-20 14:59:28,079 - __main__ - INFO - Bot is now active and monitoring the game
+2025-08-20 14:59:28,530 - ocr_utils - INFO - HP OCR parse failed. bbox=(36, 64, 276, 80) text='677677'
+2025-08-20 14:59:29,225 - ocr_utils - INFO - HP OCR parse failed. bbox=(36, 64, 276, 80) text='677677'
+2025-08-20 14:59:29,364 - ocr_utils - INFO - HP OCR parse failed. bbox=(36, 64, 276, 80) text='677677'
+2025-08-20 14:59:30,940 - spoil_manager - INFO - [spoil_process] Цель умерла внутри цикла спойла (подтверждено).
+2025-08-20 14:59:31,167 - spoil_manager - INFO - [spoil_process] Цель умерла внутри цикла спойла (подтверждено).
+2025-08-20 14:59:31,172 - ocr_utils - INFO - MP OCR: 206/206 (100.0%)
+2025-08-20 14:59:31,639 - ocr_utils - INFO - HP OCR parse failed. bbox=(36, 64, 276, 80) text='677677'
+2025-08-20 14:59:31,676 - spoil_manager - INFO - [spoil_process] Цель мертва (подтверждено), состояние спойла сброшено.
+2025-08-20 14:59:31,772 - ocr_utils - INFO - HP OCR parse failed. bbox=(36, 64, 276, 80) text='677677'
+2025-08-20 14:59:32,101 - ocr_utils - INFO - HP OCR parse failed. bbox=(36, 64, 276, 80) text='677677'
+2025-08-20 14:59:32,796 - ocr_utils - INFO - HP OCR parse failed. bbox=(36, 64, 276, 80) text='657677'
+2025-08-20 14:59:33,211 - ocr_utils - INFO - HP OCR: 670/670 (100.0%)
+2025-08-20 14:59:33,595 - ocr_utils - INFO - HP OCR: 670/670 (100.0%)
+2025-08-20 14:59:33,961 - ocr_utils - INFO - HP OCR parse failed. bbox=(36, 64, 276, 80) text='677677'
+2025-08-20 14:59:34,280 - ocr_utils - INFO - HP OCR: 664/670 (99.1%)
+2025-08-20 14:59:34,595 - ocr_utils - INFO - HP OCR parse failed. bbox=(36, 64, 276, 80) text='672677'
+2025-08-20 14:59:35,287 - spoil_manager - INFO - [spoil_process] Первый спойл ЗАЧТЕН как успешный. Спойл заблокирован до смерти цели.
+2025-08-20 14:59:35,704 - ocr_utils - INFO - BAR_MISMATCH keep prev=206; ocr=203/206 bar_est=39 ratio=0.189 bbox=(36, 85, 276, 101)
+2025-08-20 14:59:35,704 - ocr_utils - INFO - MP OCR: 206/206 (100.0%)
+2025-08-20 14:59:35,769 - ocr_utils - INFO - HP OCR: 601/670 (89.7%)
+2025-08-20 14:59:36,469 - ocr_utils - INFO - HP OCR: 592/670 (88.4%)
+2025-08-20 14:59:37,359 - spoil_manager - INFO - [spoil_process] Цель умерла внутри цикла спойла (подтверждено).
+2025-08-20 14:59:38,075 - spoil_manager - INFO - [spoil_process] Цель мертва (подтверждено), состояние спойла сброшено.
+2025-08-20 14:59:38,436 - spoil_manager - INFO - [spoil_process] Цель умерла внутри цикла спойла (подтверждено).
+2025-08-20 14:59:38,462 - ocr_utils - INFO - HP OCR: 597/670 (89.1%)
+2025-08-20 14:59:38,676 - ocr_utils - INFO - HP OCR: 597/670 (89.1%)
+2025-08-20 14:59:38,877 - ocr_utils - INFO - HP OCR: 597/670 (89.1%)
+2025-08-20 14:59:39,138 - ocr_utils - INFO - HP OCR: 597/670 (89.1%)
+2025-08-20 14:59:39,403 - ocr_utils - INFO - HP OCR: 597/670 (89.1%)
+2025-08-20 14:59:39,562 - ocr_utils - INFO - HP OCR: 597/670 (89.1%)
+2025-08-20 14:59:39,630 - ocr_utils - INFO - HP OCR: 516/670 (77.0%)
+2025-08-20 14:59:39,936 - ocr_utils - INFO - BAR_MISMATCH keep prev=206; ocr=205/206 bar_est=39 ratio=0.189 bbox=(36, 85, 276, 101)
+2025-08-20 14:59:39,936 - ocr_utils - INFO - MP OCR: 206/206 (100.0%)
+2025-08-20 14:59:40,411 - ocr_utils - INFO - HP OCR: 516/670 (77.0%)
+2025-08-20 14:59:40,539 - ocr_utils - INFO - HP OCR: 516/670 (77.0%)
+2025-08-20 14:59:40,937 - ocr_utils - INFO - BAR_MISMATCH keep prev=206; ocr=205/206 bar_est=39 ratio=0.189 bbox=(36, 85, 276, 101)
+2025-08-20 14:59:40,937 - ocr_utils - INFO - MP OCR: 206/206 (100.0%)
+2025-08-20 14:59:41,527 - ocr_utils - INFO - HP OCR: 529/670 (79.0%)
+2025-08-20 14:59:41,726 - ocr_utils - INFO - HP OCR: 529/670 (79.0%)
+2025-08-20 14:59:42,287 - ocr_utils - INFO - BAR_MISMATCH keep prev=206; ocr=206/206 bar_est=39 ratio=0.189 bbox=(36, 85, 276, 101)
+2025-08-20 14:59:42,287 - ocr_utils - INFO - MP OCR: 206/206 (100.0%)
+2025-08-20 14:59:42,725 - ocr_utils - INFO - HP OCR: 529/670 (79.0%)
+2025-08-20 14:59:42,861 - ocr_utils - INFO - HP OCR parse failed. bbox=(36, 64, 276, 80) text='537677'
+2025-08-20 14:59:43,361 - ocr_utils - INFO - MP OCR parse failed. bbox=(36, 85, 276, 101) text='249505'
+2025-08-20 14:59:43,825 - ocr_utils - INFO - HP OCR parse failed. bbox=(36, 64, 276, 80) text='537677'
+2025-08-20 14:59:43,978 - ocr_utils - INFO - HP OCR: 545/670 (81.3%)
+2025-08-20 14:59:44,535 - ocr_utils - INFO - MP OCR parse failed. bbox=(36, 85, 276, 101) text='21505'
+2025-08-20 14:59:44,660 - ocr_utils - INFO - HP OCR: 485/670 (72.4%)
+2025-08-20 14:59:44,666 - ocr_utils - INFO - HP OCR: 485/670 (72.4%)
+2025-08-20 14:59:45,010 - ocr_utils - INFO - HP OCR: 502/670 (74.9%)
+2025-08-20 14:59:45,138 - ocr_utils - INFO - HP OCR: 502/670 (74.9%)
+2025-08-20 14:59:45,138 - threat_manager - INFO - [AntiAggro] State: Normal -> UnderAttack
+2025-08-20 14:59:45,446 - ocr_utils - INFO - HP OCR: 508/670 (75.8%)
+2025-08-20 14:59:46,495 - ocr_utils - INFO - HP OCR: 490/670 (73.1%)
+2025-08-20 14:59:46,644 - ocr_utils - INFO - HP OCR: 490/670 (73.1%)
+2025-08-20 14:59:46,645 - threat_manager - INFO - [AntiAggro] State: UnderAttack -> ClearingAggro
+2025-08-20 14:59:46,979 - ocr_utils - INFO - HP OCR: 490/670 (73.1%)
+2025-08-20 14:59:47,995 - ocr_utils - INFO - HP OCR: 490/670 (73.1%)
+2025-08-20 14:59:47,995 - threat_manager - INFO - [AntiAggro] State: ClearingAggro -> Returning
+2025-08-20 14:59:49,024 - ocr_utils - INFO - HP OCR: 490/670 (73.1%)
+2025-08-20 14:59:49,027 - ocr_utils - INFO - HP OCR: 490/670 (73.1%)
+2025-08-20 14:59:49,027 - threat_manager - INFO - [AntiAggro] State: Returning -> Normal
+2025-08-20 14:59:49,272 - ocr_utils - INFO - HP OCR: 506/670 (75.5%)
+2025-08-20 14:59:50,406 - spoil_manager - INFO - [spoil_process] Спойл успешен: зелёный пиксель в окне после нажатия.
+2025-08-20 14:59:50,406 - spoil_manager - INFO - [spoil_process] Первый спойл ЗАЧТЕН как успешный. Спойл заблокирован до смерти цели.
+2025-08-20 14:59:50,801 - ocr_utils - INFO - BAR_MISMATCH keep prev=206; ocr=206/206 bar_est=39 ratio=0.189 bbox=(36, 85, 276, 101)
+2025-08-20 14:59:50,802 - ocr_utils - INFO - MP OCR: 206/206 (100.0%)
+2025-08-20 14:59:51,389 - ocr_utils - INFO - HP OCR: 518/670 (77.3%)
+2025-08-20 14:59:51,537 - spoil_manager - INFO - [spoil_process] Первый спойл ЗАЧТЕН как успешный. Спойл заблокирован до смерти цели.
+2025-08-20 14:59:51,570 - spoil_manager - INFO - [spoil_process] Цель уже проспойлена (детектор).
+2025-08-20 14:59:51,953 - ocr_utils - INFO - BAR_MISMATCH keep prev=206; ocr=206/206 bar_est=39 ratio=0.189 bbox=(36, 85, 276, 101)
+2025-08-20 14:59:51,953 - ocr_utils - INFO - MP OCR: 206/206 (100.0%)
+2025-08-20 14:59:52,447 - ocr_utils - INFO - HP OCR: 512/670 (76.4%)
+2025-08-20 14:59:52,447 - threat_manager - INFO - [AntiAggro] State: Normal -> UnderAttack
+2025-08-20 14:59:52,588 - bot_overlay - INFO - Bot paused
+2025-08-20 14:59:52,741 - ocr_utils - INFO - HP OCR: 517/670 (77.2%)
+2025-08-20 14:59:53,646 - __main__ - INFO - Pause event set (bot paused)
+2025-08-20 15:00:12,121 - bot_overlay - INFO - Bot started
+2025-08-20 15:00:12,424 - __main__ - INFO - Pause event cleared (bot started)
+2025-08-20 15:00:12,861 - spoil_manager - INFO - [spoil_process] Цель мертва (подтверждено), состояние спойла сброшено.
+2025-08-20 15:00:12,909 - spoil_manager - INFO - [spoil_process] Цель мертва (подтверждено), состояние спойла сброшено.
+2025-08-20 15:00:13,426 - __main__ - INFO - Initializing game coordinates...
+2025-08-20 15:00:13,426 - __main__ - INFO - Coordinates already initialized
+2025-08-20 15:00:13,426 - __main__ - INFO - Starting background processes...
+2025-08-20 15:00:13,427 - spoil_manager - INFO - [spoil_process] Поток спойла запущен.
+2025-08-20 15:00:13,427 - spoil_manager - INFO - [spoil_process] Поток спойла запущен.
+2025-08-20 15:00:13,427 - __main__ - INFO - Spoil process started
+2025-08-20 15:00:13,427 - __main__ - INFO - Beacon return process started
+2025-08-20 15:00:13,428 - __main__ - INFO - Green pixel monitoring started
+2025-08-20 15:00:13,428 - __main__ - INFO - All background processes started successfully
+2025-08-20 15:00:13,428 - __main__ - INFO - Bot is now active and monitoring the game
+2025-08-20 15:00:14,603 - ocr_utils - INFO - HP OCR: 643/670 (96.0%)
+2025-08-20 15:00:14,736 - ocr_utils - INFO - HP OCR: 643/670 (96.0%)
+2025-08-20 15:00:14,736 - threat_manager - INFO - [AntiAggro] State: UnderAttack -> ClearingAggro
+2025-08-20 15:00:15,004 - ocr_utils - INFO - HP OCR: 643/670 (96.0%)
+2025-08-20 15:00:16,100 - ocr_utils - INFO - HP OCR: 648/670 (96.7%)
+2025-08-20 15:00:16,236 - ocr_utils - INFO - HP OCR: 648/670 (96.7%)
+2025-08-20 15:00:16,236 - threat_manager - INFO - [AntiAggro] State: ClearingAggro -> Returning
+2025-08-20 15:00:17,117 - ocr_utils - INFO - HP OCR: 648/670 (96.7%)
+2025-08-20 15:00:17,263 - ocr_utils - INFO - HP OCR: 648/670 (96.7%)
+2025-08-20 15:00:17,263 - threat_manager - INFO - [AntiAggro] State: Returning -> Normal
+2025-08-20 15:00:17,435 - ocr_utils - INFO - HP OCR: 648/670 (96.7%)
+2025-08-20 15:00:17,594 - ocr_utils - INFO - HP OCR: 648/670 (96.7%)
+2025-08-20 15:00:17,594 - ocr_utils - INFO - HP OCR: 648/670 (96.7%)
+2025-08-20 15:00:17,861 - ocr_utils - INFO - HP OCR: 648/670 (96.7%)
+2025-08-20 15:00:18,108 - ocr_utils - INFO - HP OCR: 648/670 (96.7%)
+2025-08-20 15:00:18,345 - ocr_utils - INFO - HP OCR: 648/670 (96.7%)
+2025-08-20 15:00:18,502 - ocr_utils - INFO - HP OCR: 648/670 (96.7%)
+2025-08-20 15:00:18,598 - ocr_utils - INFO - HP OCR: 648/670 (96.7%)
+2025-08-20 15:00:18,872 - ocr_utils - INFO - HP OCR: 653/670 (97.5%)
+2025-08-20 15:00:18,939 - ocr_utils - INFO - HP OCR: 653/670 (97.5%)
+2025-08-20 15:00:19,107 - ocr_utils - INFO - HP OCR: 653/670 (97.5%)
+2025-08-20 15:00:19,377 - ocr_utils - INFO - HP OCR: 653/670 (97.5%)
+2025-08-20 15:00:19,381 - ocr_utils - INFO - HP OCR: 653/670 (97.5%)
+2025-08-20 15:00:19,635 - ocr_utils - INFO - HP OCR: 653/670 (97.5%)
+2025-08-20 15:00:19,692 - ocr_utils - INFO - HP OCR: 653/670 (97.5%)
+2025-08-20 15:00:19,884 - ocr_utils - INFO - HP OCR: 653/670 (97.5%)
+2025-08-20 15:00:20,015 - ocr_utils - INFO - HP OCR: 653/670 (97.5%)
+2025-08-20 15:00:20,123 - ocr_utils - INFO - HP OCR: 653/670 (97.5%)
+2025-08-20 15:00:20,361 - ocr_utils - INFO - HP OCR: 653/670 (97.5%)
+2025-08-20 15:00:20,456 - ocr_utils - INFO - HP OCR: 653/670 (97.5%)
+2025-08-20 15:00:20,619 - ocr_utils - INFO - HP OCR: 653/670 (97.5%)
+2025-08-20 15:00:20,859 - ocr_utils - INFO - HP OCR: 653/670 (97.5%)
+2025-08-20 15:00:21,966 - ocr_utils - INFO - MP OCR parse failed. bbox=(36, 85, 276, 101) text='239505'
+2025-08-20 15:00:22,253 - ocr_utils - INFO - HP OCR: 658/670 (98.2%)
+2025-08-20 15:00:22,318 - ocr_utils - INFO - HP OCR: 658/670 (98.2%)
+2025-08-20 15:00:22,357 - ocr_utils - INFO - HP OCR: 658/670 (98.2%)
+2025-08-20 15:00:22,529 - ocr_utils - INFO - HP OCR: 658/670 (98.2%)
+2025-08-20 15:00:22,660 - ocr_utils - INFO - HP OCR: 658/670 (98.2%)
+2025-08-20 15:00:24,485 - ocr_utils - INFO - BAR_MISMATCH keep prev=206; ocr=206/206 bar_est=39 ratio=0.189 bbox=(36, 85, 276, 101)
+2025-08-20 15:00:24,485 - ocr_utils - INFO - MP OCR: 206/206 (100.0%)
+2025-08-20 15:00:24,767 - spoil_manager - INFO - [spoil_process] Цель умерла внутри цикла спойла (подтверждено).
+2025-08-20 15:00:24,831 - spoil_manager - INFO - [spoil_process] Цель умерла внутри цикла спойла (подтверждено).
+2025-08-20 15:00:24,943 - ocr_utils - INFO - HP OCR: 658/670 (98.2%)
+2025-08-20 15:00:25,032 - spoil_manager - INFO - [spoil_process] Цель умерла внутри цикла спойла (подтверждено).
+2025-08-20 15:00:25,080 - ocr_utils - INFO - HP OCR: 658/670 (98.2%)
+2025-08-20 15:00:25,364 - ocr_utils - INFO - HP OCR: 658/670 (98.2%)
+2025-08-20 15:00:25,509 - ocr_utils - INFO - HP OCR: 658/670 (98.2%)
+2025-08-20 15:00:25,750 - ocr_utils - INFO - HP OCR: 666/670 (99.4%)
+2025-08-20 15:00:26,004 - ocr_utils - INFO - HP OCR: 666/670 (99.4%)
+2025-08-20 15:00:26,069 - ocr_utils - INFO - HP OCR: 666/670 (99.4%)
+2025-08-20 15:00:26,246 - ocr_utils - INFO - HP OCR: 666/670 (99.4%)
+2025-08-20 15:00:26,435 - ocr_utils - INFO - HP OCR: 670/670 (100.0%)
+2025-08-20 15:00:26,494 - ocr_utils - INFO - HP OCR: 670/670 (100.0%)
+2025-08-20 15:00:26,750 - ocr_utils - INFO - HP OCR parse failed. bbox=(36, 64, 276, 80) text='677677'
+2025-08-20 15:00:26,793 - ocr_utils - INFO - HP OCR parse failed. bbox=(36, 64, 276, 80) text='677677'
+2025-08-20 15:00:27,014 - ocr_utils - INFO - HP OCR parse failed. bbox=(36, 64, 276, 80) text='677677'
+2025-08-20 15:00:27,151 - ocr_utils - INFO - HP OCR parse failed. bbox=(36, 64, 276, 80) text='677677'
+2025-08-20 15:00:27,256 - ocr_utils - INFO - HP OCR parse failed. bbox=(36, 64, 276, 80) text='677677'
+2025-08-20 15:00:27,495 - ocr_utils - INFO - HP OCR parse failed. bbox=(36, 64, 276, 80) text='677677'
+2025-08-20 15:00:27,543 - ocr_utils - INFO - HP OCR parse failed. bbox=(36, 64, 276, 80) text='677677'
+2025-08-20 15:00:27,751 - ocr_utils - INFO - HP OCR parse failed. bbox=(36, 64, 276, 80) text='677677'
+2025-08-20 15:00:27,861 - ocr_utils - INFO - HP OCR parse failed. bbox=(36, 64, 276, 80) text='677677'
+2025-08-20 15:00:28,001 - ocr_utils - INFO - HP OCR parse failed. bbox=(36, 64, 276, 80) text='677677'
+2025-08-20 15:00:28,261 - ocr_utils - INFO - HP OCR parse failed. bbox=(36, 64, 276, 80) text='677677'
+2025-08-20 15:00:28,514 - ocr_utils - INFO - HP OCR: 666/670 (99.4%)
+2025-08-20 15:00:28,569 - spoil_manager - INFO - [spoil_process] Первый спойл ЗАЧТЕН как успешный. Спойл заблокирован до смерти цели.
+2025-08-20 15:00:28,831 - ocr_utils - INFO - MP OCR parse failed. bbox=(36, 85, 276, 101) text='224505'
+2025-08-20 15:00:29,116 - ocr_utils - INFO - HP OCR parse failed. bbox=(36, 64, 276, 80) text='672677'
+2025-08-20 15:00:29,119 - ocr_utils - INFO - HP OCR parse failed. bbox=(36, 64, 276, 80) text='677677'
+2025-08-20 15:00:29,635 - ocr_utils - INFO - BAR_MISMATCH keep prev=206; ocr=206/206 bar_est=39 ratio=0.189 bbox=(36, 85, 276, 101)
+2025-08-20 15:00:29,635 - ocr_utils - INFO - MP OCR: 206/206 (100.0%)
+2025-08-20 15:00:30,119 - ocr_utils - INFO - BAR_MISMATCH keep prev=206; ocr=22/206 bar_est=39 ratio=0.189 bbox=(36, 85, 276, 101)
+2025-08-20 15:00:30,119 - ocr_utils - INFO - MP OCR: 206/206 (100.0%)
+2025-08-20 15:00:30,585 - ocr_utils - INFO - BAR_MISMATCH keep prev=206; ocr=206/206 bar_est=39 ratio=0.189 bbox=(36, 85, 276, 101)
+2025-08-20 15:00:30,585 - ocr_utils - INFO - MP OCR: 206/206 (100.0%)
+2025-08-20 15:00:31,105 - ocr_utils - INFO - BAR_MISMATCH keep prev=206; ocr=22/206 bar_est=39 ratio=0.189 bbox=(36, 85, 276, 101)
+2025-08-20 15:00:31,105 - ocr_utils - INFO - MP OCR: 206/206 (100.0%)
+2025-08-20 15:00:31,617 - ocr_utils - INFO - BAR_MISMATCH keep prev=206; ocr=206/206 bar_est=39 ratio=0.189 bbox=(36, 85, 276, 101)
+2025-08-20 15:00:31,618 - ocr_utils - INFO - MP OCR: 206/206 (100.0%)
+2025-08-20 15:00:32,101 - ocr_utils - INFO - BAR_MISMATCH keep prev=206; ocr=206/206 bar_est=39 ratio=0.189 bbox=(36, 85, 276, 101)
+2025-08-20 15:00:32,101 - ocr_utils - INFO - MP OCR: 206/206 (100.0%)
+2025-08-20 15:00:32,636 - ocr_utils - INFO - BAR_MISMATCH keep prev=206; ocr=206/206 bar_est=39 ratio=0.189 bbox=(36, 85, 276, 101)
+2025-08-20 15:00:32,636 - ocr_utils - INFO - MP OCR: 206/206 (100.0%)
+2025-08-20 15:00:32,749 - ocr_utils - INFO - HP OCR: 661/670 (98.7%)
+2025-08-20 15:00:33,045 - ocr_utils - INFO - HP OCR parse failed. bbox=(36, 64, 276, 80) text='672677'
+2025-08-20 15:00:33,153 - ocr_utils - INFO - BAR_MISMATCH keep prev=206; ocr=206/206 bar_est=39 ratio=0.189 bbox=(36, 85, 276, 101)
+2025-08-20 15:00:33,154 - ocr_utils - INFO - MP OCR: 206/206 (100.0%)
+2025-08-20 15:00:33,739 - ocr_utils - INFO - HP OCR parse failed. bbox=(36, 64, 276, 80) text='677677'
+2025-08-20 15:00:34,598 - spoil_manager - INFO - [spoil_process] Цель умерла внутри цикла спойла (подтверждено).
+2025-08-20 15:00:34,645 - spoil_manager - INFO - [spoil_process] Цель умерла внутри цикла спойла (подтверждено).
+2025-08-20 15:00:34,692 - spoil_manager - INFO - [spoil_process] Цель умерла внутри цикла спойла (подтверждено).
+2025-08-20 15:00:35,319 - spoil_manager - INFO - [spoil_process] Цель мертва (подтверждено), состояние спойла сброшено.
+2025-08-20 15:00:35,374 - ocr_utils - INFO - HP OCR parse failed. bbox=(36, 64, 276, 80) text='677677'
+2025-08-20 15:00:35,590 - ocr_utils - INFO - HP OCR parse failed. bbox=(36, 64, 276, 80) text='677677'
+2025-08-20 15:00:35,887 - ocr_utils - INFO - HP OCR parse failed. bbox=(36, 64, 276, 80) text='677677'
+2025-08-20 15:00:36,153 - ocr_utils - INFO - HP OCR parse failed. bbox=(36, 64, 276, 80) text='677677'
+2025-08-20 15:00:36,375 - ocr_utils - INFO - HP OCR parse failed. bbox=(36, 64, 276, 80) text='677677'
+2025-08-20 15:00:37,480 - ocr_utils - INFO - MP OCR parse failed. bbox=(36, 85, 276, 101) text='22505'
+2025-08-20 15:00:37,938 - ocr_utils - INFO - HP OCR parse failed. bbox=(36, 64, 276, 80) text='677677'
+2025-08-20 15:00:38,112 - ocr_utils - INFO - HP OCR parse failed. bbox=(36, 64, 276, 80) text='677677'
+2025-08-20 15:00:39,416 - ocr_utils - INFO - MP OCR parse failed. bbox=(36, 85, 276, 101) text='223503'
+2025-08-20 15:00:39,872 - ocr_utils - INFO - HP OCR parse failed. bbox=(36, 64, 276, 80) text='677677'
+2025-08-20 15:00:40,009 - ocr_utils - INFO - HP OCR parse failed. bbox=(36, 64, 276, 80) text='677677'
+2025-08-20 15:00:41,308 - ocr_utils - INFO - MP OCR parse failed. bbox=(36, 85, 276, 101) text='223503'
+2025-08-20 15:00:41,750 - ocr_utils - INFO - HP OCR parse failed. bbox=(36, 64, 276, 80) text='677677'
+2025-08-20 15:00:41,887 - ocr_utils - INFO - HP OCR parse failed. bbox=(36, 64, 276, 80) text='677677'
+2025-08-20 15:00:43,084 - ocr_utils - INFO - MP OCR parse failed. bbox=(36, 85, 276, 101) text='229503'
+2025-08-20 15:00:43,575 - ocr_utils - INFO - HP OCR parse failed. bbox=(36, 64, 276, 80) text='677677'
+2025-08-20 15:00:43,703 - ocr_utils - INFO - HP OCR parse failed. bbox=(36, 64, 276, 80) text='677677'
+2025-08-20 15:00:44,990 - ocr_utils - INFO - MP OCR parse failed. bbox=(36, 85, 276, 101) text='229503'
+2025-08-20 15:00:45,457 - ocr_utils - INFO - HP OCR parse failed. bbox=(36, 64, 276, 80) text='677677'
+2025-08-20 15:00:45,609 - ocr_utils - INFO - HP OCR parse failed. bbox=(36, 64, 276, 80) text='677677'
+2025-08-20 15:00:46,819 - ocr_utils - INFO - BAR_MISMATCH keep prev=206; ocr=206/206 bar_est=39 ratio=0.189 bbox=(36, 85, 276, 101)
+2025-08-20 15:00:46,819 - ocr_utils - INFO - MP OCR: 206/206 (100.0%)
+2025-08-20 15:00:47,256 - ocr_utils - INFO - HP OCR parse failed. bbox=(36, 64, 276, 80) text='677677'
+2025-08-20 15:00:47,399 - ocr_utils - INFO - HP OCR parse failed. bbox=(36, 64, 276, 80) text='677677'
+2025-08-20 15:00:47,829 - bot_overlay - INFO - Bot paused
+2025-08-20 15:00:48,652 - ocr_utils - INFO - BAR_MISMATCH keep prev=206; ocr=22/206 bar_est=39 ratio=0.189 bbox=(36, 85, 276, 101)
+2025-08-20 15:00:48,652 - ocr_utils - INFO - MP OCR: 206/206 (100.0%)
+2025-08-20 15:00:48,950 - __main__ - INFO - Pause event set (bot paused)
+2025-08-20 15:01:34,817 - bot_overlay - INFO - Bot started
+2025-08-20 15:01:35,039 - __main__ - INFO - Pause event cleared (bot started)
+2025-08-20 15:01:36,040 - __main__ - INFO - Initializing game coordinates...
+2025-08-20 15:01:36,040 - __main__ - INFO - Coordinates already initialized
+2025-08-20 15:01:36,040 - __main__ - INFO - Starting background processes...
+2025-08-20 15:01:36,041 - spoil_manager - INFO - [spoil_process] Поток спойла запущен.
+2025-08-20 15:01:36,041 - spoil_manager - INFO - [spoil_process] Поток спойла запущен.
+2025-08-20 15:01:36,041 - __main__ - INFO - Spoil process started
+2025-08-20 15:01:36,041 - __main__ - INFO - Beacon return process started
+2025-08-20 15:01:36,042 - __main__ - INFO - Green pixel monitoring started
+2025-08-20 15:01:36,042 - __main__ - INFO - All background processes started successfully
+2025-08-20 15:01:36,042 - __main__ - INFO - Bot is now active and monitoring the game
+2025-08-20 15:01:37,191 - ocr_utils - INFO - HP OCR parse failed. bbox=(36, 64, 276, 80) text='677677'
+2025-08-20 15:01:37,338 - ocr_utils - INFO - HP OCR parse failed. bbox=(36, 64, 276, 80) text='677677'
+2025-08-20 15:01:40,500 - ocr_utils - INFO - BAR_MISMATCH keep prev=206; ocr=203/206 bar_est=39 ratio=0.189 bbox=(36, 85, 276, 101)
+2025-08-20 15:01:40,500 - ocr_utils - INFO - MP OCR: 206/206 (100.0%)
+2025-08-20 15:01:40,914 - ocr_utils - INFO - HP OCR parse failed. bbox=(36, 64, 276, 80) text='677677'
+2025-08-20 15:01:41,076 - ocr_utils - INFO - HP OCR parse failed. bbox=(36, 64, 276, 80) text='677677'
+2025-08-20 15:01:42,850 - ocr_utils - INFO - BAR_MISMATCH keep prev=206; ocr=206/206 bar_est=39 ratio=0.189 bbox=(36, 85, 276, 101)
+2025-08-20 15:01:42,850 - ocr_utils - INFO - MP OCR: 206/206 (100.0%)
+2025-08-20 15:01:43,315 - ocr_utils - INFO - HP OCR parse failed. bbox=(36, 64, 276, 80) text='677677'
+2025-08-20 15:01:43,450 - ocr_utils - INFO - HP OCR parse failed. bbox=(36, 64, 276, 80) text='677677'
+2025-08-20 15:01:44,599 - ocr_utils - INFO - BAR_MISMATCH keep prev=206; ocr=206/206 bar_est=39 ratio=0.189 bbox=(36, 85, 276, 101)
+2025-08-20 15:01:44,599 - ocr_utils - INFO - MP OCR: 206/206 (100.0%)
+2025-08-20 15:01:45,037 - ocr_utils - INFO - HP OCR parse failed. bbox=(36, 64, 276, 80) text='677677'
+2025-08-20 15:01:45,169 - ocr_utils - INFO - HP OCR parse failed. bbox=(36, 64, 276, 80) text='677677'
+2025-08-20 15:01:46,384 - ocr_utils - INFO - BAR_MISMATCH keep prev=206; ocr=206/206 bar_est=39 ratio=0.189 bbox=(36, 85, 276, 101)
+2025-08-20 15:01:46,384 - ocr_utils - INFO - MP OCR: 206/206 (100.0%)
+2025-08-20 15:01:46,831 - ocr_utils - INFO - HP OCR parse failed. bbox=(36, 64, 276, 80) text='677677'
+2025-08-20 15:01:46,968 - ocr_utils - INFO - HP OCR parse failed. bbox=(36, 64, 276, 80) text='677677'
+2025-08-20 15:01:48,220 - ocr_utils - INFO - BAR_MISMATCH keep prev=206; ocr=206/206 bar_est=39 ratio=0.189 bbox=(36, 85, 276, 101)
+2025-08-20 15:01:48,220 - ocr_utils - INFO - MP OCR: 206/206 (100.0%)
+2025-08-20 15:01:48,647 - ocr_utils - INFO - HP OCR parse failed. bbox=(36, 64, 276, 80) text='677677'
+2025-08-20 15:01:48,769 - ocr_utils - INFO - HP OCR parse failed. bbox=(36, 64, 276, 80) text='677677'
+2025-08-20 15:01:49,932 - ocr_utils - INFO - BAR_MISMATCH keep prev=206; ocr=206/206 bar_est=39 ratio=0.189 bbox=(36, 85, 276, 101)
+2025-08-20 15:01:49,933 - ocr_utils - INFO - MP OCR: 206/206 (100.0%)
+2025-08-20 15:01:50,225 - bot_overlay - INFO - Bot paused
+2025-08-20 15:01:50,246 - __main__ - INFO - Pause event set (bot paused)
+2025-08-20 15:29:50,124 - __main__ - INFO - Shutdown command received. Stopping bot loop...
+2025-08-20 15:29:50,124 - __main__ - INFO - Bot shutdown complete
+2025-08-20 15:50:29,679 - window_manager - INFO - WindowManager initialized with process: 'lu4.bin', title: 'LU4'
+2025-08-20 15:51:18,407 - window_manager - INFO - WindowManager initialized with process: 'lu4.bin', title: 'LU4'
+2025-08-20 15:51:54,151 - window_manager - INFO - WindowManager initialized with process: 'lu4.bin', title: 'LU4'
+2025-08-20 15:51:59,684 - telemetry - INFO - Telemetry started (interval=60.0s)
+2025-08-20 15:51:59,684 - window_manager - INFO - WindowManager initialized with process: 'lu4.bin', title: 'LU4'
+2025-08-20 15:51:59,685 - screenshot_manager - INFO - ScreenshotManager started (fps_cap=20.0)
+2025-08-20 15:51:59,685 - __main__ - INFO - Screenshot Manager started
+2025-08-20 15:51:59,732 - __main__ - INFO - ChatMonitor started
+2025-08-20 15:51:59,734 - window_manager - INFO - Found matching window:
+  Title: 'LU4  '
+  Class: 'UnrealWindow'
+  Process: 'lu4.bin' (PID: 19504)
+  Handle: 11275674
+2025-08-20 15:51:59,743 - __main__ - INFO - ArduinoInvoker attached to ThreatManager
+2025-08-20 15:51:59,743 - __main__ - INFO - Starting bot overlay...
+2025-08-20 15:51:59,743 - __main__ - INFO - Starting bot overlay...
+2025-08-20 15:51:59,744 - __main__ - INFO - Bot initialized and waiting for start command...
+2025-08-20 15:51:59,822 - __main__ - INFO - Bot is in PAUSED state. Click the start button in the overlay to begin.
+2025-08-20 15:52:14,139 - window_manager - INFO - Found matching window:
+  Title: 'LU4  '
+  Class: 'UnrealWindow'
+  Process: 'lu4.bin' (PID: 19504)
+  Handle: 11275674
+2025-08-20 15:52:59,694 - telemetry - INFO - [Telemetry] elapsed=60.0s counters={'loop_ticks': 118} gauges={'overlay_queue_size': 0.0, 'sm_fps': 22.28822521113505, 'sm_latency_ms': 45.351399681678764, 'sm_age_ms': 3.3125877380371094, 'fg_total': 2.0, 'fg_manager': 0.0, 'fg_fallback': 2.0, 'fg_failed': 0.0, 'fg_manager_ratio': 0.0, 'chat_ocr_fps': 13.559149453410717, 'chat_ocr_latency_ms': 0.0, 'chat_skips_nochange': 164.0, 'chat_events_emitted': 0.0} lat_ms={'main_loop': {'count': 118, 'avg': 0.03, 'p50': 0.03, 'p90': 0.04, 'p99': 0.05}}
+2025-08-20 15:53:59,701 - telemetry - INFO - [Telemetry] elapsed=60.0s counters={'loop_ticks': 119} gauges={'overlay_queue_size': 0.0, 'sm_fps': 26.361620658826144, 'sm_latency_ms': 38.674119965112354, 'sm_age_ms': 16.86573028564453, 'fg_total': 2.0, 'fg_manager': 0.0, 'fg_fallback': 2.0, 'fg_failed': 0.0, 'fg_manager_ratio': 0.0, 'chat_ocr_fps': 13.485247474570016, 'chat_ocr_latency_ms': 0.0, 'chat_skips_nochange': 533.0, 'chat_events_emitted': 0.0} lat_ms={'main_loop': {'count': 237, 'avg': 0.03, 'p50': 0.03, 'p90': 0.04, 'p99': 0.07}}
+2025-08-20 15:54:52,437 - bot_overlay - INFO - Бот запущен
+2025-08-20 15:54:52,446 - __main__ - INFO - Pause event cleared (bot started)
+2025-08-20 15:54:53,447 - __main__ - INFO - Initializing game coordinates...
+2025-08-20 15:54:53,448 - __main__ - INFO - Coordinates already initialized
+2025-08-20 15:54:53,448 - __main__ - INFO - Starting background processes...
+2025-08-20 15:54:53,449 - spoil_manager - INFO - [spoil_process] Поток спойла запущен.
+2025-08-20 15:54:53,449 - spoil_manager - INFO - [spoil_process] Поток спойла запущен.
+2025-08-20 15:54:53,449 - __main__ - INFO - Spoil process started
+2025-08-20 15:54:53,450 - __main__ - INFO - Beacon return process started
+2025-08-20 15:54:53,450 - __main__ - INFO - Green pixel monitoring started
+2025-08-20 15:54:53,450 - __main__ - INFO - All background processes started successfully
+2025-08-20 15:54:53,450 - __main__ - INFO - Bot is now active and monitoring the game
+2025-08-20 15:54:54,451 - __main__ - INFO - frame_grab stats: total=2 manager=0 fallback=2 failed=0
+2025-08-20 15:54:54,579 - hp_guard - INFO - [hp_guard] HP ratio: 0.43 (src=CV)
+2025-08-20 15:54:55,368 - __main__ - INFO - CV: red regions detected: 5, largest area=3675
+2025-08-20 15:54:55,368 - __main__ - INFO - CV: player HP ratio ~ 43.2%
+2025-08-20 15:54:57,201 - hp_guard - INFO - [hp_guard] HP ratio: 0.43 (src=CV)
+2025-08-20 15:54:58,699 - bot_overlay - INFO - Бот поставлен на паузу
+2025-08-20 15:54:59,175 - __main__ - INFO - Pause event set (bot paused)
+2025-08-20 15:54:59,712 - telemetry - INFO - [Telemetry] elapsed=60.0s counters={'loop_ticks': 112} gauges={'overlay_queue_size': 0.0, 'sm_fps': 25.033790036607915, 'sm_latency_ms': 41.553380132826106, 'sm_age_ms': 27.729272842407227, 'fg_total': 12.0, 'fg_manager': 12.0, 'fg_fallback': 0.0, 'fg_failed': 0.0, 'fg_manager_ratio': 1.0, 'chat_ocr_fps': 13.50037739735838, 'chat_ocr_latency_ms': 0.0, 'chat_skips_nochange': 988.0, 'chat_events_emitted': 0.0} lat_ms={'main_loop': {'count': 256, 'avg': 20.52, 'p50': 0.03, 'p90': 0.04, 'p99': 818.41}}
+2025-08-20 15:55:56,859 - bot_overlay - INFO - Бот запущен
+2025-08-20 15:55:57,348 - __main__ - INFO - Pause event cleared (bot started)
+2025-08-20 15:55:58,349 - __main__ - INFO - Initializing game coordinates...
+2025-08-20 15:55:58,350 - __main__ - INFO - Coordinates already initialized
+2025-08-20 15:55:58,350 - __main__ - INFO - Starting background processes...
+2025-08-20 15:55:58,350 - spoil_manager - INFO - [spoil_process] Поток спойла запущен.
+2025-08-20 15:55:58,350 - spoil_manager - INFO - [spoil_process] Поток спойла запущен.
+2025-08-20 15:55:58,350 - __main__ - INFO - Spoil process started
+2025-08-20 15:55:58,351 - __main__ - INFO - Beacon return process started
+2025-08-20 15:55:58,351 - __main__ - INFO - Green pixel monitoring started
+2025-08-20 15:55:58,351 - __main__ - INFO - All background processes started successfully
+2025-08-20 15:55:58,351 - __main__ - INFO - Bot is now active and monitoring the game
+2025-08-20 15:55:59,351 - __main__ - INFO - frame_grab stats: total=12 manager=12 fallback=0 failed=0
+2025-08-20 15:55:59,443 - hp_guard - INFO - [hp_guard] HP ratio: 0.52 (src=CV)
+2025-08-20 15:55:59,715 - telemetry - INFO - [Telemetry] elapsed=60.0s counters={'loop_ticks': 114} gauges={'overlay_queue_size': 0.0, 'sm_fps': 23.245437361678675, 'sm_latency_ms': 43.76847270873299, 'sm_age_ms': 49.323320388793945, 'fg_total': 3.0, 'fg_manager': 3.0, 'fg_fallback': 0.0, 'fg_failed': 0.0, 'fg_manager_ratio': 1.0, 'chat_ocr_fps': 13.759192222716111, 'chat_ocr_latency_ms': 0.0, 'chat_skips_nochange': 988.0, 'chat_events_emitted': 0.0} lat_ms={'main_loop': {'count': 256, 'avg': 20.52, 'p50': 0.03, 'p90': 0.04, 'p99': 818.41}}
+2025-08-20 15:56:00,264 - __main__ - INFO - CV: red regions detected: 5, largest area=3952
+2025-08-20 15:56:00,265 - __main__ - INFO - CV: player HP ratio ~ 52.2%
+2025-08-20 15:56:02,028 - hp_guard - INFO - [hp_guard] HP ratio: 0.52 (src=CV)
+2025-08-20 15:56:04,079 - hp_guard - INFO - [hp_guard] HP ratio: 0.52 (src=CV)
+2025-08-20 15:56:06,094 - hp_guard - INFO - [hp_guard] HP ratio: 0.52 (src=CV)
+2025-08-20 15:56:06,167 - __main__ - INFO - CV: red regions detected: 4, largest area=3952
+2025-08-20 15:56:06,168 - __main__ - INFO - CV: player HP ratio ~ 52.2%
+2025-08-20 15:56:08,135 - hp_guard - INFO - [hp_guard] HP ratio: 0.52 (src=CV)
+2025-08-20 15:56:10,345 - hp_guard - INFO - [hp_guard] HP ratio: 0.52 (src=CV)
+2025-08-20 15:56:12,280 - __main__ - INFO - CV: red regions detected: 4, largest area=3952
+2025-08-20 15:56:12,280 - __main__ - INFO - CV: player HP ratio ~ 52.2%
+2025-08-20 15:56:13,062 - hp_guard - INFO - [hp_guard] HP ratio: 0.52 (src=CV)
+2025-08-20 15:56:15,409 - hp_guard - INFO - [hp_guard] HP ratio: 0.52 (src=CV)
+2025-08-20 15:56:16,761 - bot_overlay - INFO - Бот поставлен на паузу
+2025-08-20 15:56:17,297 - __main__ - INFO - CV: red regions detected: 4, largest area=3952
+2025-08-20 15:56:17,298 - __main__ - INFO - CV: player HP ratio ~ 52.2%
+2025-08-20 15:56:17,329 - __main__ - INFO - Pause event set (bot paused)
+2025-08-20 15:56:49,244 - __main__ - INFO - Bot loop stopped by user
+2025-08-20 15:56:49,254 - screenshot_manager - INFO - ScreenshotManager stopped
+2025-08-20 15:56:49,317 - __main__ - INFO - Bot shutdown complete
