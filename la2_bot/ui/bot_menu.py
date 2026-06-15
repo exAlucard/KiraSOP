@@ -39,6 +39,7 @@ bot_flags = {
     'flip': False,
     'vkatak': False,
     'stuck': False,
+    'anti_no_target': False,
     'poke': False,
     'always_assist': False,
 }
@@ -121,6 +122,7 @@ def create_pause_overlay(root, pause_event, hud_settings_module):
             'flip': "Флип",
             'vkatak': "ВКатак",
             'stuck': "Stuck",
+            'anti_no_target': "АнтиНоТаргет (-)",
             'poke': "Подпинывание",
             'always_assist': "ВсегдаАсист",
         }
@@ -403,6 +405,10 @@ def create_pause_overlay(root, pause_event, hud_settings_module):
     stuck_btn.pack(side=tk.TOP, anchor='w', pady=(0, 2))
     update_flag_button_style("stuck", stuck_btn)
 
+    anti_no_target_btn = tk.Button(flags_frame, font=("Arial", 9), width=button_width, command=lambda: toggle_flag("anti_no_target", anti_no_target_btn))
+    anti_no_target_btn.pack(side=tk.TOP, anchor='w', pady=(0, 2))
+    update_flag_button_style("anti_no_target", anti_no_target_btn)
+
     poke_btn = tk.Button(flags_frame, font=("Arial", 9), width=button_width, command=lambda: toggle_flag("poke", poke_btn))
     poke_btn.pack(side=tk.TOP, anchor='w', pady=(0, 2))
     update_flag_button_style("poke", poke_btn)
@@ -444,4 +450,3 @@ def is_flag_enabled(flag_name):
 
 def get_target_count_mode():
     return bot_flags.get('target_count_mode', 1)
-''

@@ -26,6 +26,7 @@ from la2_bot.core.debug_state import set_next_target_cooldown
 from la2_bot.actions.buff_manager import manage_buff_process, stop_buff_process
 from la2_bot.actions.vkatak import vkatak_tick
 from la2_bot.actions.stuck_mode import stuck_mode_tick, reset_state as stuck_mode_reset
+from la2_bot.actions.anti_no_target import anti_no_target_tick, reset_state as anti_no_target_reset
 from la2_bot.features import always_assist
 import la2_bot.config.hud_settings
 
@@ -50,6 +51,7 @@ def bot_loop(pause_event):
     next_flip_time = 0.0
     next_vkatak_time = 0.0
     next_stuck_time = 0.0
+    next_anti_no_target_time = 0.0
     next_settings_refresh_time = 0.0
     heal_interval_seconds = 15.0
 
@@ -166,6 +168,15 @@ def bot_loop(pause_event):
                     next_stuck_time = now + 0.2
             else:
                 stuck_mode_reset()
+
+            # Anti-no-target mode: если нет таргета дольше 13с — нажимает "-".
+            if is_flag_enabled('anti_no_target'):
+                now = time.time()
+                if now >= next_anti_no_target_time:
+                    anti_no_target_tick(ser)
+                    next_anti_no_target_time = now + 0.2
+            else:
+                anti_no_target_reset()
 
             # Arduino-based AltDS: every 310s Alt+Tab -> wait 0.5s -> ATTACK(7) -> Alt+Tab, block next target for 1.5s
             if is_flag_enabled('altds'):
