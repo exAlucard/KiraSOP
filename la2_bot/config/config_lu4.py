@@ -12,20 +12,20 @@ CANVAS_BASE_WIDTH  = 1920
 CANVAS_BASE_HEIGHT = 1080
 
 # ----- Координаты пикселей -----
-TARGET_HP_1_POINT_REL         = (758, 8)  # 1 HP основной цели (для возврата к таргету)
-TARGET_HP_DAMAGED_POINT_REL   = (1045, 8 )  # Пиксель поврежденной цели
-TARGET_HP_FULL_POINT_REL      = (1160, 9)  # Признак полного HP цели (для спойла)
-CHAR_HP_POINT_REL             = (205, 67)  # Пиксель HP персонажа
-CHAR_MP_POINT_REL             = (60, 87)  # Пиксель MP персонажа
+TARGET_HP_1_POINT_REL         = (1031, 107)  # 1 HP основной цели (для возврата к таргету)
+TARGET_HP_DAMAGED_POINT_REL   = (1262, 99 )  # Пиксель поврежденной цели
+TARGET_HP_FULL_POINT_REL      = (1351, 99)  # Признак полного HP цели (для спойла)
+CHAR_HP_POINT_REL             = (291, 81)  # Пиксель HP персонажа
+CHAR_MP_POINT_REL             = (283, 99)  # Пиксель MP персонажа
 
 # ----- Цвета и порог -----
-TARGET_COLOR      = (255, 0, 0)
-CHAR_HP_COLOR     = (228, 123, 106)
-CHAR_MP_COLOR     = (102, 153, 215)
+TARGET_COLOR      = (161, 57, 64)
+CHAR_HP_COLOR     = (161, 57, 64)
+CHAR_MP_COLOR     = (65, 121, 206)
 COLOR_THRESHOLD   = 10
 
 # ----- Поиск удачного спойла -----
-GREEN_PIXEL_SEARCH_AREA_REL  = (1207, 952, 1224, 1086)
+GREEN_PIXEL_SEARCH_AREA_REL  = (22, 710, 378, 844)
 GREEN_PIXEL_POINT_REL        = None
 GREEN_PIXEL_COLOR       = (191, 255, 177)
 
@@ -34,7 +34,8 @@ SKILL_RESET_POINT_REL  = (501, 955)
 SKILL_RESET_COLOR = (70, 30, 1)
 
 # ----- Прямоугольники для OCR -----
-HP_RECT_REL  = (120, 63, 170, 80)
+HP_RECT_REL  = (211, 72, 237, 85)
+HP_BAR_RECT_REL = (211, 72, 237, 85)
 MP_RECT_REL  = (120, 83, 150, 100)
 
 # ----- Команды на Arduino -----
@@ -206,3 +207,7 @@ BUFF_CYCLE_INTERVAL = 60.0
 
 # Текст кнопки в оверлее для бафов
 FLAG_BUTTON_TEXT_BUFF = "Бафы (F1-F10)"
+
+# ----- Настройки, добавленные через панель «Конфиг» -----
+THREAT_SCENARIO_KILL_ENABLED = False
+THREAT_SCENARIO_FULL_HP_ENABLED = False

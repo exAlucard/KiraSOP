@@ -1,1 +1,30 @@
-﻿output
+﻿# Python
+__pycache__/
+*.py[cod]
+
+# PyInstaller
+build/
+dist/
+
+# Logs
+logs/
+*.log
+
+# IDE
+.idea/
+
+# Project IDX
+.idx/
+
+# Windows shortcuts
+*.lnk
+
+# Temporary / backup files
+*.backup_*
+*.tmp
+
+# Existing output directory
+output/
+
+# Optional runtime cache
+cache/
