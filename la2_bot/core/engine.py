@@ -1,5 +1,7 @@
 # la2_bot/core/engine.py
+import threading
 import time
+
 from la2_bot.core.state import (
     pause_event,
     mob_highlight_thread,
@@ -31,19 +33,84 @@ from la2_bot.features import always_assist
 import la2_bot.config.hud_settings
 
 
+HP_POTION_CHECK_INTERVAL = 0.05
+
+
+def hp_potion_worker(ser, pause_event, stop_event, action_sequence_lock):
+    """
+    Независимый цикл HP-банки.
+
+    Проверяет HP отдельно от основного bot_loop, поэтому loot/sweep/heal и другие
+    блокирующие sleep() больше не задерживают банку на несколько секунд.
+    """
+    last_potion = 0.0
+    last_error_log = 0.0
+
+    while not stop_event.is_set():
+        try:
+            # На паузе ничего не делаем.
+            if not pause_event.is_set():
+                stop_event.wait(HP_POTION_CHECK_INTERVAL)
+                continue
+
+            # Уважаем кнопку Potion в оверлее.
+            if not is_flag_enabled('potion'):
+                stop_event.wait(HP_POTION_CHECK_INTERVAL)
+                continue
+
+            # Не отправляем кнопку, если активное окно сейчас не игра.
+            if not is_game_active(config.GAME_EXE_NAME):
+                stop_event.wait(HP_POTION_CHECK_INTERVAL)
+                continue
+
+            # Lock нужен, чтобы банка не вклинилась между ALT_TAB -> действие -> ALT_TAB.
+            with action_sequence_lock:
+                # Пока ждали lock, окно/пауза могли измениться — проверяем ещё раз.
+                if (
+                    pause_event.is_set()
+                    and is_flag_enabled('potion')
+                    and is_game_active(config.GAME_EXE_NAME)
+                ):
+                    last_potion = use_hp_potion_if_needed(ser, last_potion)
+
+        except Exception as e:
+            # Не даём единичной ошибке пикселя/окна убить поток.
+            # Лог ограничен разом в 5 секунд, чтобы не заспамить консоль.
+            now = time.monotonic()
+            if now - last_error_log >= 5.0:
+                print(f"[hp_potion] Ошибка проверки HP: {e}")
+                last_error_log = now
+
+        stop_event.wait(HP_POTION_CHECK_INTERVAL)
+
+
 def bot_loop(pause_event):
     ser = init_serial()
+
     try:
         always_assist.set_serial(ser)
     except Exception:
         pass
+
+    # HP-банка работает в отдельном потоке и больше не зависит от длительности
+    # одного прохода основного bot_loop.
+    hp_potion_stop_event = threading.Event()
+    action_sequence_lock = threading.Lock()
+    hp_thread = threading.Thread(
+        target=hp_potion_worker,
+        args=(ser, pause_event, hp_potion_stop_event, action_sequence_lock),
+        daemon=True,
+        name="hp-potion-worker",
+    )
+    hp_thread.start()
+
     processes_started = False
     state = {
         'was_hp1_red': True,
         'next_next_target': time.time(),
         'last_target_index': 0,
     }
-    last_potion = last_mp_skill = last_attack = 0
+    last_mp_skill = last_attack = 0
     set_last_focus_check(0)
     next_altheal_time = 0.0
     next_heal_time = 0.0
@@ -93,7 +160,6 @@ def bot_loop(pause_event):
 
             # --- Основная логика бота ---
             now = time.time()
-
             if now >= next_settings_refresh_time:
                 try:
                     from la2_bot.config.config_manager import get_client_name
@@ -114,14 +180,13 @@ def bot_loop(pause_event):
                     pass
                 next_settings_refresh_time = now + 2.0
 
-            if is_flag_enabled('potion'):
-                last_potion = use_hp_potion_if_needed(ser, last_potion)
+            # HP potion теперь проверяется отдельным hp_potion_worker.
             if is_flag_enabled('mp_skill'):
                 last_mp_skill = use_mp_skill_if_needed(ser, last_mp_skill)
 
             # Основная логика выполняется независимо от анти-агра
             state = main_target_loot_and_sweep(ser, state)
-            
+
             if is_flag_enabled('next_target'):
                 last_attack = periodic_attack_if_needed(ser, last_attack)
 
@@ -130,11 +195,13 @@ def bot_loop(pause_event):
                 now = time.time()
                 if now >= next_altheal_time:
                     set_next_target_cooldown(1.5)
-                    send_command(ser, 'ALT_TAB')
-                    time.sleep(0.5)
-                    send_command(ser, 'HP_POTION')  # key '9'
-                    time.sleep(0.1)
-                    send_command(ser, 'ALT_TAB')
+                    # Не даём HP-потоку отправить кнопку, пока мы временно на другом окне.
+                    with action_sequence_lock:
+                        send_command(ser, 'ALT_TAB')
+                        time.sleep(0.5)
+                        send_command(ser, 'HP_POTION')  # key '9'
+                        time.sleep(0.1)
+                        send_command(ser, 'ALT_TAB')
                     next_altheal_time = now + 15.0
 
             # Flip mode: every 300s press F8
@@ -183,11 +250,13 @@ def bot_loop(pause_event):
                 now = time.time()
                 if now >= next_altds_time:
                     set_next_target_cooldown(1.5)
-                    send_command(ser, 'ALT_TAB')
-                    time.sleep(0.5)
-                    send_command(ser, 'ATTACK')  # key '7'
-                    time.sleep(0.1)
-                    send_command(ser, 'ALT_TAB')
+                    # Так же защищаем ALT_TAB-последовательность от HP-потока.
+                    with action_sequence_lock:
+                        send_command(ser, 'ALT_TAB')
+                        time.sleep(0.5)
+                        send_command(ser, 'ATTACK')  # key '7'
+                        time.sleep(0.1)
+                        send_command(ser, 'ALT_TAB')
                     next_altds_time = now + 310.0
 
             # Buff manager (F1..F10 sequence)
@@ -210,6 +279,8 @@ def bot_loop(pause_event):
     except KeyboardInterrupt:
         print("Прервано пользователем")
     finally:
+        # Останавливаем отдельный HP worker при завершении bot_loop.
+        hp_potion_stop_event.set()
         print("[main] Завершение работы, останавливаю все процессы...")
         stop_spoil_process()
         stop_return_to_target_process()
