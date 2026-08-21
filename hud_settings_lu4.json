@@ -55,11 +55,11 @@
     "pos_y": 453,
     "debug_overlay_pos_x": 1357,
     "debug_overlay_pos_y": 494,
-    "pause_overlay_pos_x": 420,
-    "pause_overlay_pos_y": 74,
+    "pause_overlay_pos_x": 376,
+    "pause_overlay_pos_y": 126,
     "button_states": {
         "target_count_mode": 1,
-        "buffs": false,
+        "buffs": true,
         "vkatak": true,
         "double_click": false,
         "target_mob": false,
@@ -70,7 +70,9 @@
         "next_target": true,
         "rapid_target_search": true,
         "anti_agr_full_hp": false,
-        "anti_agr_kill": false
+        "anti_agr_kill": false,
+        "always_assist": true,
+        "assist_pkm": false
     },
     "log_window_pos_x": 1015,
     "log_window_pos_y": 405,

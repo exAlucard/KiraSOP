@@ -1,7 +1,7 @@
 """Always Assist feature: press key '5' via Arduino every 1 second."""
 import threading
 import time
-from la2_bot.core.comm import send_command
+from la2_bot.core.comm import send_command, send_next_target_with_assist
 
 _assist_thread = None
 _stop_event = threading.Event()
@@ -15,7 +15,7 @@ def _worker():
         while not _stop_event.is_set():
             try:
                 if _ser is not None:
-                    send_command(_ser, 'NEXT_TARGET')  # Arduino mapped to key '5'
+                    send_next_target_with_assist(_ser, 'NEXT_TARGET')  # Arduino mapped to key '5'
                     time.sleep(0.05)
                     send_command(_ser, 'ATTACK')
             except Exception:

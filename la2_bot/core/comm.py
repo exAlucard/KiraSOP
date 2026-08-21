@@ -127,3 +127,57 @@ def send_command(ser, cmd_key, max_retries=3, delay=2):
             retries += 1
     print("Не удалось отправить команду после нескольких попыток.")
     return False
+
+_NEXT_TARGET_COMMANDS = frozenset(("NEXT_TARGET", "NEXT_TARGET_2"))
+
+
+def _is_assist_pkm_enabled():
+    """Читает runtime-флаг оверлея без жёсткого циклического импорта UI -> comm."""
+    try:
+        # bot_menu импортирует модули, которые сами используют comm.py, поэтому
+        # импорт намеренно локальный и выполняется только в момент команды.
+        from la2_bot.ui.bot_menu import is_flag_enabled
+        return bool(is_flag_enabled('assist_pkm'))
+    except Exception as exc:
+        # Ошибка UI не должна ломать сам выбор цели.
+        print(f"[comm] Не удалось прочитать флаг assist_pkm: {exc}")
+        return False
+
+
+def send_next_target_with_assist(ser, cmd_key, max_retries=3, delay=2):
+    """Отправляет NEXT_TARGET/NEXT_TARGET_2 и, при АссистПКМ, сразу RCLICK.
+
+    Arduino сама удерживает цифровую клавишу PRESS_DELAY_MS, поэтому отдельная
+    задержка между 5/6 и RCLICK на стороне Python не нужна: команды в Serial
+    приходят по порядку, а ПКМ обрабатывается уже после отпускания клавиши.
+    """
+    if cmd_key not in _NEXT_TARGET_COMMANDS:
+        raise ValueError(
+            f"send_next_target_with_assist поддерживает только "
+            f"NEXT_TARGET/NEXT_TARGET_2, получено: {cmd_key!r}"
+        )
+
+    sent = send_command(
+        ser,
+        cmd_key,
+        max_retries=max_retries,
+        delay=delay,
+    )
+    if not sent:
+        return False
+
+    if not _is_assist_pkm_enabled():
+        return True
+
+    rclick_sent = send_command(
+        ser,
+        'RCLICK',
+        max_retries=max_retries,
+        delay=delay,
+    )
+    if not rclick_sent:
+        print(f"[comm] {cmd_key} отправлен, но RCLICK для АссистПКМ не отправился")
+
+    # Основная команда выбора цели уже успешно ушла, поэтому сохраняем True.
+    return True
+

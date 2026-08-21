@@ -1,7 +1,7 @@
 # la2_bot/utils/target_utils.py
 """Утилиты для отправки команд выбора цели."""
 
-from la2_bot.core.comm import send_command
+from la2_bot.core.comm import send_command, send_next_target_with_assist
 from la2_bot.ui.bot_menu import get_target_count_mode, is_flag_enabled
 from la2_bot.utils.pixel_utils import get_pixel_color, is_color_match
 from la2_bot.utils import coordinate_utils
@@ -17,12 +17,12 @@ def send_target_command(ser):
 
     count_mode = get_target_count_mode()
     if count_mode == 1:
-        send_command(ser, 'NEXT_TARGET')
+        send_next_target_with_assist(ser, 'NEXT_TARGET')
         print("[target] Отправлена команда NEXT_TARGET (режим 1 цели)")
     elif count_mode == 2:
-        send_command(ser, 'NEXT_TARGET')
+        send_next_target_with_assist(ser, 'NEXT_TARGET')
         print("[target] Отправлена команда NEXT_TARGET (1/2)")
-        send_command(ser, 'NEXT_TARGET_2')
+        send_next_target_with_assist(ser, 'NEXT_TARGET_2')
         print("[target] Отправлена команда NEXT_TARGET_2 (2/2)")
     else:
         print(f"[target] Неизвестный режим выбора количества целей: {count_mode}. Команда не отправлена.")

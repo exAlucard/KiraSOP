@@ -42,9 +42,6 @@ bot_flags = {
     # Быстрый обычный поиск цели кнопками 5 / 6.
     'rapid_target_search': False,
 
-    # Дополнительный ПКМ при поиске новой цели.
-    'assist_pkm': False,
-
     'altheal': False,
     'buffs': False,
     'heal': False,
@@ -179,7 +176,6 @@ def create_pause_overlay(root, pause_event, hud_settings_module):
             'anti_agr_kill': "Антиагр кил",
             'anti_agr_full_hp': "Антиагр фул хп",
             'rapid_target_search': "Поиск цели x10",
-            'assist_pkm': "АссистПКМ",
             'altheal': "Альтхил",
             'buffs': getattr(config, 'FLAG_BUTTON_TEXT_BUFF', 'Бафы'),
             'heal': "Хил",
@@ -546,11 +542,6 @@ def create_pause_overlay(root, pause_event, hud_settings_module):
     rapid_target_search_btn = make_flag_button(
         flags_frame,
         "rapid_target_search",
-    )
-
-    assist_pkm_btn = make_flag_button(
-        flags_frame,
-        "assist_pkm",
     )
 
     altheal_btn = make_flag_button(flags_frame, "altheal")

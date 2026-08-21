@@ -25,7 +25,7 @@ import time
 from statistics import median
 
 from la2_bot.detection.hp_bar_detection import get_hp_measurement
-from la2_bot.core.comm import send_command
+from la2_bot.core.comm import send_command, send_next_target_with_assist
 from la2_bot.config import config
 from la2_bot.utils.pixel_utils import get_pixel_color, is_target_color
 from la2_bot.utils import coordinate_utils
@@ -2023,7 +2023,7 @@ def schedule_engaged_full_target_recheck(
                 command="NEXT_TARGET",
                 target_before=get_target_probe(),
             )
-            send_command(ser, 'NEXT_TARGET')
+            send_next_target_with_assist(ser, 'NEXT_TARGET')
             cycle_sent = True
             time.sleep(settle_after_cycle)
 

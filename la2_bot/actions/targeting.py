@@ -7,7 +7,7 @@ import threading
 from la2_bot.utils.pixel_utils import get_pixel_color, is_target_color
 from la2_bot.utils import coordinate_utils
 from la2_bot.config import config
-from la2_bot.core.comm import send_command
+from la2_bot.core.comm import send_command, send_next_target_with_assist
 from la2_bot.core.state import pause_event
 from la2_bot.detection.hp_bar_detection import get_hp_measurement
 from la2_bot.ui.bot_menu import is_flag_enabled, get_target_count_mode
@@ -121,7 +121,7 @@ def _rapid_target_search_worker(ser, state):
                 interval=0.10,
                 target_before=get_target_probe(),
             )
-            send_command(ser, command)
+            send_next_target_with_assist(ser, command)
             command_count += 1
 
             try:
@@ -242,7 +242,7 @@ def find_new_target(ser, state):
         search_interval=float(config.TARGET_SWITCH_DELAY),
         target_before=get_target_probe(),
     )
-    send_command(ser, command)
+    send_next_target_with_assist(ser, command)
 
     set_next_target_cooldown(config.TARGET_SWITCH_DELAY)
     try:
@@ -1012,10 +1012,8 @@ def main_target_loot_and_sweep(ser, state):
                 sweeps_sent += 1
 
                 if sweep_index < required_sweeps:
-                    delay = random.uniform(
-                        config.SWEEP_TO_LOOT_MIN,
-                        config.SWEEP_TO_LOOT_MAX,
-                    )
+                    # Интервал только между обязательными SWEEP: 0.2–0.3 сек.
+                    delay = random.uniform(0.2, 0.3)
                     time.sleep(max(0.0, delay))
 
         finally:
