@@ -1,7 +1,6 @@
 # la2_bot/core/engine.py
 import threading
 import time
-
 from la2_bot.core.state import (
     pause_event,
     mob_highlight_thread,
@@ -16,7 +15,11 @@ from la2_bot.actions.consumables import use_hp_potion_if_needed, use_mp_skill_if
 from la2_bot.actions.targeting import main_target_loot_and_sweep
 from la2_bot.actions.combat import periodic_attack_if_needed
 from la2_bot.actions.return_to_target import manage_return_to_target_process, stop_return_to_target_process
-from la2_bot.detection.spoil_manager import manage_spoil_process, stop_spoil_process
+from la2_bot.detection.spoil_manager import (
+    manage_spoil_process,
+    stop_spoil_process,
+    mark_target_switch_pending,
+)
 from la2_bot.ui.bot_menu import is_flag_enabled
 from la2_bot.utils.window_utils import is_game_active, get_game_window_geometry
 from la2_bot.config import config
@@ -32,7 +35,6 @@ from la2_bot.actions.anti_no_target import anti_no_target_tick, reset_state as a
 from la2_bot.features import always_assist
 import la2_bot.config.hud_settings
 
-
 HP_POTION_CHECK_INTERVAL = 0.05
 
 
@@ -45,7 +47,6 @@ def hp_potion_worker(ser, pause_event, stop_event, action_sequence_lock):
     """
     last_potion = 0.0
     last_error_log = 0.0
-
     while not stop_event.is_set():
         try:
             # На паузе ничего не делаем.
@@ -57,12 +58,10 @@ def hp_potion_worker(ser, pause_event, stop_event, action_sequence_lock):
             if not is_flag_enabled('potion'):
                 stop_event.wait(HP_POTION_CHECK_INTERVAL)
                 continue
-
             # Не отправляем кнопку, если активное окно сейчас не игра.
             if not is_game_active(config.GAME_EXE_NAME):
                 stop_event.wait(HP_POTION_CHECK_INTERVAL)
                 continue
-
             # Lock нужен, чтобы банка не вклинилась между ALT_TAB -> действие -> ALT_TAB.
             with action_sequence_lock:
                 # Пока ждали lock, окно/пауза могли измениться — проверяем ещё раз.
@@ -72,7 +71,6 @@ def hp_potion_worker(ser, pause_event, stop_event, action_sequence_lock):
                     and is_game_active(config.GAME_EXE_NAME)
                 ):
                     last_potion = use_hp_potion_if_needed(ser, last_potion)
-
         except Exception as e:
             # Не даём единичной ошибке пикселя/окна убить поток.
             # Лог ограничен разом в 5 секунд, чтобы не заспамить консоль.
@@ -86,12 +84,10 @@ def hp_potion_worker(ser, pause_event, stop_event, action_sequence_lock):
 
 def bot_loop(pause_event):
     ser = init_serial()
-
     try:
         always_assist.set_serial(ser)
     except Exception:
         pass
-
     # HP-банка работает в отдельном потоке и больше не зависит от длительности
     # одного прохода основного bot_loop.
     hp_potion_stop_event = threading.Event()
@@ -103,13 +99,17 @@ def bot_loop(pause_event):
         name="hp-potion-worker",
     )
     hp_thread.start()
-
     processes_started = False
     state = {
         'was_hp1_red': True,
         'next_next_target': time.time(),
         'last_target_index': 0,
     }
+
+    # FIX: запоминаем последний обработанный NEXT_TARGET/NEXT_TARGET_2.
+    # targeting.py уже пишет state['last_target_switch_ts'] после отправки команды.
+    last_seen_target_switch_ts = 0.0
+
     last_mp_skill = last_attack = 0
     set_last_focus_check(0)
     next_altheal_time = 0.0
@@ -121,7 +121,6 @@ def bot_loop(pause_event):
     next_anti_no_target_time = 0.0
     next_settings_refresh_time = 0.0
     heal_interval_seconds = 15.0
-
     try:
         while True:
             if not pause_event.is_set():
@@ -133,12 +132,10 @@ def bot_loop(pause_event):
                     processes_started = False
                 time.sleep(0.5)
                 continue
-
             current_client_name = config.GAME_EXE_NAME
             if not is_game_active(current_client_name):
                 time.sleep(0.5)
                 continue
-
             window_geometry = get_game_window_geometry(current_client_name)
             if window_geometry:
                 initialize_coordinates(window_geometry)
@@ -157,7 +154,6 @@ def bot_loop(pause_event):
                     processes_started = False
                 time.sleep(1)
                 continue
-
             # --- Основная логика бота ---
             now = time.time()
             if now >= next_settings_refresh_time:
@@ -179,7 +175,6 @@ def bot_loop(pause_event):
                 except Exception:
                     pass
                 next_settings_refresh_time = now + 2.0
-
             # HP potion теперь проверяется отдельным hp_potion_worker.
             if is_flag_enabled('mp_skill'):
                 last_mp_skill = use_mp_skill_if_needed(ser, last_mp_skill)
@@ -187,9 +182,23 @@ def bot_loop(pause_event):
             # Основная логика выполняется независимо от анти-агра
             state = main_target_loot_and_sweep(ser, state)
 
+            # FIX:
+            # Сразу после NEXT_TARGET/NEXT_TARGET_2 предварительно включаем
+            # spoil-priority ДО periodic_attack и ДО vkatak.
+            #
+            # Это закрывает окно гонки, когда targeting уже отправил NEXT_TARGET,
+            # а фоновый spoil_worker ещё не успел увидеть новую HP-полоску.
+            try:
+                target_switch_ts = float(state.get('last_target_switch_ts', 0.0) or 0.0)
+            except (TypeError, ValueError):
+                target_switch_ts = 0.0
+
+            if target_switch_ts > last_seen_target_switch_ts:
+                mark_target_switch_pending()
+                last_seen_target_switch_ts = target_switch_ts
+
             if is_flag_enabled('next_target'):
                 last_attack = periodic_attack_if_needed(ser, last_attack)
-
             # Arduino-based Altheal: Alt+Tab -> 9 -> Alt+Tab, every ~15s when enabled
             if is_flag_enabled('altheal'):
                 now = time.time()
@@ -203,14 +212,12 @@ def bot_loop(pause_event):
                         time.sleep(0.1)
                         send_command(ser, 'ALT_TAB')
                     next_altheal_time = now + 15.0
-
             # Flip mode: every 300s press F8
             if is_flag_enabled('flip'):
                 now = time.time()
                 if now >= next_flip_time:
                     send_command(ser, 'F8')
                     next_flip_time = now + 300.0
-
             # Arduino-based Heal: every 15s press key '9' five times with 0.2s interval
             if is_flag_enabled('heal'):
                 if now >= next_heal_time:
@@ -219,14 +226,15 @@ def bot_loop(pause_event):
                         send_command(ser, heal_cmd_key)
                         time.sleep(0.2)
                     next_heal_time = now + heal_interval_seconds
-
-            # VKatak: independent module, periodic tick. Presses 8 if MP color matches else 1.
+            # VKatak: independent module, periodic tick.
             if is_flag_enabled('vkatak'):
                 now = time.time()
                 if now >= next_vkatak_time:
-                    vkatak_tick(ser)
+                    vkatak_tick(
+                        ser,
+                        state.get('last_target_switch_ts', 0.0),
+                    )
                     next_vkatak_time = now + getattr(config, 'SPOIL_ATTEMPT_INTERVAL_MIN', 1.0)
-
             # Stuck mode: independent module. When enabled, checks full HP timeout and triggers ESC + RETURN_TO_TARGET.
             if is_flag_enabled('stuck'):
                 now = time.time()
@@ -235,7 +243,6 @@ def bot_loop(pause_event):
                     next_stuck_time = now + 0.2
             else:
                 stuck_mode_reset()
-
             # Anti-no-target mode: если нет таргета дольше 13с — нажимает "-".
             if is_flag_enabled('anti_no_target'):
                 now = time.time()
@@ -244,7 +251,6 @@ def bot_loop(pause_event):
                     next_anti_no_target_time = now + 0.2
             else:
                 anti_no_target_reset()
-
             # Arduino-based AltDS: every 310s Alt+Tab -> wait 0.5s -> ATTACK(7) -> Alt+Tab, block next target for 1.5s
             if is_flag_enabled('altds'):
                 now = time.time()
@@ -258,7 +264,6 @@ def bot_loop(pause_event):
                         time.sleep(0.1)
                         send_command(ser, 'ALT_TAB')
                     next_altds_time = now + 310.0
-
             # Buff manager (F1..F10 sequence)
             if is_flag_enabled('buffs'):
                 # Expose current desire to the worker via config
@@ -273,7 +278,6 @@ def bot_loop(pause_event):
                 except Exception:
                     pass
                 stop_buff_process()
-
             time.sleep(config.CHECK_INTERVAL)
 
     except KeyboardInterrupt:

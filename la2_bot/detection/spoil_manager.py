@@ -1,19 +1,19 @@
 """Модуль управления спойлом цели.
 
-v10: приоритет спойла в самом начале боя.
+v10 + target-switch prearm fix.
 
 Основные правила:
 - как только появилась новая валидная цель, первая попытка SKILL1_SPOIL идет сразу;
 - первые несколько секунд до успешного спойла повторные попытки идут часто;
 - ATTACK от spoil_manager не отправляется раньше первой попытки SPOIL;
 - во время anti-aggro WATCHING/ACQUIRING спойл уступает управление;
-- после anti-aggro ENGAGED новая цель немедленно перевооружает spoil-manager.
+- после anti-aggro ENGAGED новая цель немедленно перевооружает spoil-manager;
+- сразу после NEXT_TARGET/NEXT_TARGET_2 обычная атака блокируется ещё до того,
+  как фоновый spoil_worker успеет увидеть новую HP-полоску.
 """
-
 import threading
 import time
 import random
-
 from la2_bot.core.comm import send_command
 from la2_bot.config import config
 from la2_bot.utils.pixel_utils import get_pixel_color, is_color_match, is_target_color
@@ -28,7 +28,6 @@ from la2_bot.utils.threat_watcher import (
 )
 from la2_bot.utils.antiaggro_diagnostics import log_event, log_event_throttled
 
-
 spoil_process_thread = None
 spoil_stop_event = threading.Event()
 
@@ -42,6 +41,14 @@ first_spoil_success_event.clear()
 _spoil_priority_pending_event = threading.Event()
 _spoil_priority_pending_event.clear()
 
+# FIX:
+# targeting.py отправляет NEXT_TARGET в основном/rapid потоке, а spoil_worker
+# видит новую HP-полоску немного позже. Этот короткий "prearm" закрывает окно
+# гонки между этими двумя событиями.
+_target_switch_guard_lock = threading.Lock()
+_target_switch_prearm_until = 0.0
+_last_target_arm_wall_ts = 0.0
+
 
 def _cfg_float(name, default, minimum=None):
     try:
@@ -51,6 +58,68 @@ def _cfg_float(name, default, minimum=None):
     if minimum is not None:
         value = max(float(minimum), value)
     return value
+
+
+def mark_target_switch_pending(target_switch_ts=None):
+    """Предварительно блокирует обычный ATTACK после NEXT_TARGET.
+
+    Вызывается engine.py, когда targeting.py обновил
+    state['last_target_switch_ts'].
+
+    Это НЕ подменяет основной spoil-priority Event. Prearm живёт недолго и
+    нужен только для закрытия межпоточной гонки до обнаружения новой цели.
+    """
+    global _target_switch_prearm_until
+
+    try:
+        switch_ts = float(target_switch_ts or 0.0)
+    except (TypeError, ValueError):
+        switch_ts = 0.0
+
+    guard_seconds = _cfg_float(
+        'SPOIL_TARGET_SWITCH_PREARM_SECONDS',
+        0.75,
+        0.10,
+    )
+
+    now_mono = time.monotonic()
+
+    with _target_switch_guard_lock:
+        # Если spoil_worker уже успел вооружить цель ПОСЛЕ этой конкретной
+        # команды NEXT_TARGET, поздний вызов engine не должен возвращать prearm.
+        if switch_ts > 0.0 and _last_target_arm_wall_ts >= switch_ts:
+            return False
+
+        new_until = now_mono + guard_seconds
+        if new_until > _target_switch_prearm_until:
+            _target_switch_prearm_until = new_until
+
+    log_event(
+        'SPOIL_PRIORITY_PREARM',
+        level='debug',
+        target_switch_ts=switch_ts,
+        guard_seconds=guard_seconds,
+    )
+    return True
+
+
+def _clear_target_switch_prearm():
+    global _target_switch_prearm_until
+    with _target_switch_guard_lock:
+        _target_switch_prearm_until = 0.0
+
+
+def _note_target_armed():
+    global _last_target_arm_wall_ts
+    global _target_switch_prearm_until
+    with _target_switch_guard_lock:
+        _last_target_arm_wall_ts = time.time()
+        _target_switch_prearm_until = 0.0
+
+
+def _is_target_switch_prearm_active():
+    with _target_switch_guard_lock:
+        return time.monotonic() < _target_switch_prearm_until
 
 
 def _antiaggro_blocks_spoil():
@@ -115,6 +184,7 @@ def manage_spoil_process(ser, pause_event):
         # Новые параметры необязательны: если их нет в config, работают defaults.
         priority_window = _cfg_float('SPOIL_PRIORITY_WINDOW_SECONDS', 3.0, 0.5)
         priority_retry = _cfg_float('SPOIL_PRIORITY_RETRY_INTERVAL', 0.25, 0.08)
+
         # Обычная атака разрешается сразу после подтвержденного спойла.
         # Если green detector не подтвердил его совсем, fallback не дает боту
         # зависнуть на цели навсегда.
@@ -150,6 +220,11 @@ def manage_spoil_process(ser, pause_event):
             spoiled_event.clear()
             first_spoil_success_event.clear()
             _spoil_priority_pending_event.clear()
+
+            # ВАЖНО:
+            # prearm здесь НЕ чистим. Если reset произошёл из-за смерти старой
+            # цели уже после NEXT_TARGET, короткая защита должна пережить reset
+            # до появления новой цели.
             green_pixel_utils.clear_green_pixel_detected()
 
         def arm_new_target(hp1_color, reason='target_appeared'):
@@ -172,9 +247,13 @@ def manage_spoil_process(ser, pause_event):
 
             spoiled_event.clear()
             first_spoil_success_event.clear()
-            _spoil_priority_pending_event.set()
-            green_pixel_utils.clear_green_pixel_detected()
 
+            # Новая цель реально обнаружена: короткий prearm больше не нужен,
+            # дальше защитой управляет основной Event.
+            _note_target_armed()
+            _spoil_priority_pending_event.set()
+
+            green_pixel_utils.clear_green_pixel_detected()
             log_event(
                 'SPOIL_NEW_TARGET',
                 level='info',
@@ -198,7 +277,6 @@ def manage_spoil_process(ser, pause_event):
                 # визуально не исчезала.
                 rearm_after_antiaggro = True
                 pending_attack_at = None
-
                 log_event_throttled(
                     'spoil_paused_antiaggro',
                     1.0,
@@ -235,7 +313,6 @@ def manage_spoil_process(ser, pause_event):
                 continue
 
             hp1_red, hp1_color = _target_is_alive_and_selected()
-
             if not hp1_red:
                 if current_target_id is not None:
                     reset_target_state('target_disappeared_or_died')
@@ -246,7 +323,6 @@ def manage_spoil_process(ser, pause_event):
 
             if current_target_id is None:
                 arm_new_target(hp1_color, reason='target_appeared')
-
             # Дополнительная страховка для прямого переключения с поврежденного
             # моба на новую full-HP цель, когда HP-полоска вообще не успела
             # исчезнуть между двумя таргетами.
@@ -263,14 +339,15 @@ def manage_spoil_process(ser, pause_event):
             if green_pixel_utils.is_green_pixel_detected():
                 green_pixel_utils.clear_green_pixel_detected()
                 spoiled_event.set()
-
                 if not first_spoil_successful:
                     first_spoil_successful = True
                     first_spoil_success_event.set()
                     _spoil_priority_pending_event.clear()
+
                     # После подтвержденного spoil можно сразу переходить к атаке.
                     if first_spoil_command_sent:
                         pending_attack_at = now + post_success_attack_delay
+
                     log_event(
                         'SPOIL_SUCCESS',
                         level='info',
@@ -304,6 +381,7 @@ def manage_spoil_process(ser, pause_event):
                                 target_id=current_target_id,
                                 target_age=target_age,
                             )
+
                         send_command(ser, 'ATTACK')
                 pending_attack_at = None
 
@@ -383,6 +461,10 @@ def stop_spoil_process():
         spoil_process_thread.join(timeout=1.0)
         spoil_process_thread = None
 
+    # Не переносим кратковременный prearm через pause/restart worker.
+    _clear_target_switch_prearm()
+    _spoil_priority_pending_event.clear()
+
 
 def is_any_spoil_success():
     return spoiled_event.is_set()
@@ -400,10 +482,12 @@ def clear_first_spoil_success():
     first_spoil_success_event.clear()
 
 
-
 def is_spoil_priority_pending():
     """True, пока новая цель должна получить spoil раньше обычной атаки."""
-    return _spoil_priority_pending_event.is_set()
+    return (
+        _spoil_priority_pending_event.is_set()
+        or _is_target_switch_prearm_active()
+    )
 
 
 is_spoil_success = is_any_spoil_success

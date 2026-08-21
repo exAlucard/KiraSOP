@@ -952,7 +952,7 @@ def main_target_loot_and_sweep(ser, state):
         # v9: свип имеет абсолютный приоритет перед сменой цели anti-aggro.
         # Watcher запускаем сразу, чтобы он не пропустил входящий удар, но
         # закрываем sweep-gate: даже если угроза подтвердится мгновенно, поток
-        # останется в WATCHING и НЕ отправит NEAREST_TARGET/ATTACK до двух SWEEP.
+        # останется в WATCHING и НЕ отправит NEAREST_TARGET/ATTACK до четырех SWEEP.
         sweep_gate_open = False
         if is_flag_enabled('anti_agr_kill'):
             begin_post_kill_sweep_gate()
@@ -981,10 +981,10 @@ def main_target_loot_and_sweep(ser, state):
                 reason="THREAT_SCENARIO_KILL_ENABLED=False",
             )
 
-        sweep1_sent = False
-        sweep2_sent = False
+        required_sweeps = 4
+        sweeps_sent = 0
         try:
-            # До обязательного свипа anti-aggro не может стать ACQUIRING,
+            # До обязательной серии SWEEP anti-aggro не может стать ACQUIRING,
             # поэтому эти ожидания не прерываются сменой цели.
             initial_delay = random.uniform(config.LOOT_MIN, config.LOOT_MAX)
             if not _sleep_interruptible_by_anti_aggro(initial_delay):
@@ -996,42 +996,39 @@ def main_target_loot_and_sweep(ser, state):
                     step="initial_delay",
                 )
 
-            delay = random.uniform(config.SWEEP_TO_LOOT_MIN, config.SWEEP_TO_LOOT_MAX)
-            log_event(
-                "POST_KILL_SWEEP_COMMAND",
-                level="info",
-                index=1,
-                command="SWEEP",
-                antiaggro_phase=get_threat_watcher_phase(),
-                watch_id=get_current_watch_id(),
-            )
-            send_command(ser, 'SWEEP')
-            sweep1_sent = True
-            # Между первым и вторым SWEEP сохраняем исходный небольшой интервал.
-            time.sleep(max(0.0, delay))
+            # FIX: после смерти моба отправляем SWEEP ровно 4 раза.
+            # Между нажатиями сохраняем исходный небольшой случайный интервал.
+            for sweep_index in range(1, required_sweeps + 1):
+                log_event(
+                    "POST_KILL_SWEEP_COMMAND",
+                    level="info",
+                    index=sweep_index,
+                    total=required_sweeps,
+                    command="SWEEP",
+                    antiaggro_phase=get_threat_watcher_phase(),
+                    watch_id=get_current_watch_id(),
+                )
+                send_command(ser, 'SWEEP')
+                sweeps_sent += 1
 
-            log_event(
-                "POST_KILL_SWEEP_COMMAND",
-                level="info",
-                index=2,
-                command="SWEEP",
-                antiaggro_phase=get_threat_watcher_phase(),
-                watch_id=get_current_watch_id(),
-            )
-            send_command(ser, 'SWEEP')
-            sweep2_sent = True
+                if sweep_index < required_sweeps:
+                    delay = random.uniform(
+                        config.SWEEP_TO_LOOT_MIN,
+                        config.SWEEP_TO_LOOT_MAX,
+                    )
+                    time.sleep(max(0.0, delay))
 
         finally:
             if sweep_gate_open:
                 end_post_kill_sweep_gate(
                     reason=(
-                        "two_sweeps_sent"
-                        if sweep1_sent and sweep2_sent
+                        "four_sweeps_sent"
+                        if sweeps_sent == required_sweeps
                         else "sweep_sequence_aborted_fail_open"
                     )
                 )
 
-        # После второго SWEEP anti-aggro уже может переключить цель. Остальной
+        # После четвертого SWEEP anti-aggro уже может переключить цель. Остальной
         # LOOT намеренно остаётся прерываемым: приоритет теперь у угрозы.
         post_sweep_delay = random.uniform(
             config.SWEEP_TO_LOOT_MIN, config.SWEEP_TO_LOOT_MAX
