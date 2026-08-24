@@ -50,13 +50,87 @@ def _raw_target_present():
         return False
 
 
+def _get_normal_target_search_command(state):
+    """Вернуть команду обычного поиска цели.
+
+    FIX 5/6: в режиме двух целей выбранная кнопка фиксируется на весь текущий
+    цикл поиска. Она НЕ меняется после каждой отправки команды. На другую кнопку
+    переключаемся только после подтверждения валидной HP-полоски новой цели.
+    """
+    target_count_mode = get_target_count_mode()
+
+    if target_count_mode != 2:
+        # При выходе из режима 5/6 незавершённый цикл больше не актуален.
+        state.pop('_pending_target_index', None)
+        state['_target_search_mode'] = target_count_mode
+        return 'NEXT_TARGET', target_count_mode, None
+
+    # Совместимость с существующим engine.py: там last_target_index стартует с 0,
+    # поэтому после запуска первая обычная цель ищется клавишей 5.
+    next_index = state.get('_next_target_index')
+    if next_index not in (0, 1):
+        next_index = state.get('last_target_index', 0)
+        if next_index not in (0, 1):
+            next_index = 0
+        state['_next_target_index'] = next_index
+
+    pending_index = state.get('_pending_target_index')
+    if pending_index not in (0, 1):
+        pending_index = next_index
+        state['_pending_target_index'] = pending_index
+        log_event(
+            'TARGET_SEARCH_CYCLE_START',
+            level='info',
+            target_index=pending_index,
+            command=('NEXT_TARGET' if pending_index == 0 else 'NEXT_TARGET_2'),
+        )
+
+    state['_target_search_mode'] = 2
+    command = 'NEXT_TARGET' if pending_index == 0 else 'NEXT_TARGET_2'
+    return command, target_count_mode, pending_index
+
+
+def _confirm_normal_target_search(state, *, accepted, anti_aggro_target):
+    """Подтвердить успешный поиск 5/6 и подготовить противоположную кнопку.
+
+    Подтверждение выполняется только для обычной принятой цели. Anti-aggro цель
+    не должна сдвигать последовательность 5 -> 6 -> 5 -> 6.
+    """
+    if not accepted or anti_aggro_target or get_target_count_mode() != 2:
+        return False
+
+    pending_index = state.get('_pending_target_index')
+    if pending_index not in (0, 1):
+        return False
+
+    next_index = 1 - pending_index
+    state['_next_target_index'] = next_index
+
+    # Legacy-ключ оставляем синхронизированным, чтобы engine.py менять не нужно.
+    # Теперь его значение трактуется как индекс СЛЕДУЮЩЕГО цикла поиска.
+    state['last_target_index'] = next_index
+    state['_pending_target_index'] = None
+
+    log_event(
+        'TARGET_SEARCH_CYCLE_CONFIRMED',
+        level='info',
+        confirmed_index=pending_index,
+        confirmed_command=('NEXT_TARGET' if pending_index == 0 else 'NEXT_TARGET_2'),
+        next_index=next_index,
+        next_command=('NEXT_TARGET' if next_index == 0 else 'NEXT_TARGET_2'),
+        target=get_target_probe(),
+    )
+    return True
+
+
 def _rapid_target_search_worker(ser, state):
     """Отдельный worker нормального поиска цели с темпом около 10 команд/сек.
 
     Worker нужен вместо простого уменьшения cooldown: основной bot_loop иногда
     занят OCR/скиллами, поэтому один только cooldown не гарантирует 10 Гц.
     Поиск прекращается сразу при появлении HP-полоски цели, выключении кнопки,
-    паузе бота или захвате приоритета anti-aggro.
+    паузе бота или захвате приоритета anti-aggro. В режиме 5/6 worker повторяет
+    одну выбранную кнопку до появления цели; следующий цикл берёт другую кнопку.
     """
     global _rapid_search_thread
     stop_reason = 'unknown'
@@ -102,21 +176,22 @@ def _rapid_target_search_worker(ser, state):
                 time.sleep(0.02)
                 continue
 
-            target_count_mode = get_target_count_mode()
-            command = 'NEXT_TARGET'
-            if target_count_mode == 2:
-                if state.get('last_target_index', 0) == 0:
-                    command = 'NEXT_TARGET'
-                    state['last_target_index'] = 1
-                else:
-                    command = 'NEXT_TARGET_2'
-                    state['last_target_index'] = 0
+            command, target_count_mode, pending_target_index = (
+                _get_normal_target_search_command(state)
+            )
+
+            # HP мог появиться между проверкой в начале цикла и этой точкой.
+            # Не отправляем лишний 5/6 поверх уже найденной цели.
+            if _raw_target_present():
+                stop_reason = 'target_appeared_before_send'
+                break
 
             log_event(
                 'RAPID_TARGET_SEARCH_COMMAND',
                 level='debug',
                 command=command,
                 target_count_mode=target_count_mode,
+                pending_target_index=pending_target_index,
                 command_index=command_count + 1,
                 interval=0.10,
                 target_before=get_target_probe(),
@@ -175,7 +250,8 @@ def find_new_target(ser, state):
 
     v8: флаг ``rapid_target_search`` запускает отдельный worker, который
     отправляет обычные команды поиска примерно 10 раз/сек до появления цели.
-    В режиме двух целей чередуются NEXT_TARGET / NEXT_TARGET_2 (5 / 6).
+    В режиме двух целей NEXT_TARGET / NEXT_TARGET_2 (5 / 6) чередуются
+    между успешно найденными целями, а не между отдельными попытками поиска.
     Anti-aggro NEAREST_TARGET этим режимом не затрагивается.
     """
     watcher_active = is_threat_watcher_active()
@@ -222,22 +298,16 @@ def find_new_target(ser, state):
         )
         return
 
-    target_count_mode = get_target_count_mode()
-    command = 'NEXT_TARGET'
-
-    if target_count_mode == 2:
-        if state.get('last_target_index', 0) == 0:
-            command = 'NEXT_TARGET'
-            state['last_target_index'] = 1
-        else:
-            command = 'NEXT_TARGET_2'
-            state['last_target_index'] = 0
+    command, target_count_mode, pending_target_index = (
+        _get_normal_target_search_command(state)
+    )
 
     log_event(
         "NORMAL_TARGET_COMMAND",
         level="debug",
         command=command,
         target_count_mode=target_count_mode,
+        pending_target_index=pending_target_index,
         rapid_search=False,
         search_interval=float(config.TARGET_SWITCH_DELAY),
         target_before=get_target_probe(),
@@ -822,6 +892,15 @@ def main_target_loot_and_sweep(ser, state):
                 is_target_damaged = is_target_hp_damaged()
 
     is_target_alive = is_target_alive_raw and is_selected_ok and (not is_target_damaged)
+
+    # FIX 5/6: успешный поиск подтверждается только здесь, когда новая цель
+    # действительно появилась и прошла проверки selected/damaged. До этого
+    # find_new_target и x10 продолжают повторять одну и ту же кнопку.
+    _confirm_normal_target_search(
+        state,
+        accepted=is_target_alive,
+        anti_aggro_target=anti_aggro_target,
+    )
 
     live_intercept_started = _log_target_state(
         ser,

@@ -4,7 +4,6 @@ import tkinter as tk
 
 import win32con
 import win32gui
-
 from la2_bot.config import config
 from la2_bot.ui.hud import create_hud
 from la2_bot.ui.debug_overlay import create_debug_overlay
@@ -15,27 +14,27 @@ from la2_bot.config.config_manager import get_client_name, get_config
 from la2_bot.features import always_assist
 from la2_bot.detection import flagstop_mode
 
-
 OVERLAY_ALPHA = config.OVERLAY_ALPHA
 OVERLAY_POSITION_X = config.OVERLAY_POSITION_X
 OVERLAY_POSITION_Y = config.OVERLAY_POSITION_Y
 
-
+# Дефолты первого запуска:
+# ON: HP Банка (9), MP Скилл (8), /target (5), Целей: 1 (5)
+# Всё остальное OFF.
 bot_flags = {
-    'potion': config.FLAG_POTION_ENABLED,
-    'mp_skill': config.FLAG_MP_SKILL_ENABLED,
-    'next_target': config.FLAG_NEXT_TARGET_ENABLED,
-    'mob_search': config.FLAG_MOB_SEARCH_ENABLED,
-    'double_click': config.FLAG_DOUBLE_CLICK_ENABLED,
-    'target_mob': True,
-    'return_to_target': config.FLAG_RETURN_TO_TARGET_ENABLED,
-    'stuck_target': config.FLAG_STUCK_TARGET_ENABLED,
-    'skip_damaged_target': True,
-
+    'potion': True,
+    'mp_skill': True,
+    'next_target': True,
+    'mob_search': False,
+    'double_click': False,
+    'target_mob': False,
+    'return_to_target': False,
+    'stuck_target': False,
+    'skip_damaged_target': False,
     # Внутренний master-флаг. Реальное состояние вычисляется как OR двух сценариев ниже.
-    'anti_agr': True,
-    'anti_agr_kill': bool(getattr(config, 'THREAT_SCENARIO_KILL_ENABLED', True)),
-    'anti_agr_full_hp': bool(getattr(config, 'THREAT_SCENARIO_FULL_HP_ENABLED', True)),
+    'anti_agr': False,
+    'anti_agr_kill': False,
+    'anti_agr_full_hp': False,
     'anti_coin': False,
     'target_count_mode': 1,
 
@@ -44,7 +43,6 @@ bot_flags = {
 
     # Дополнительный ПКМ при поиске новой цели.
     'assist_pkm': False,
-
     'altheal': False,
     'buffs': False,
     'heal': False,
@@ -62,10 +60,8 @@ def create_pause_overlay(root, pause_event, hud_settings_module):
     global bot_flags
 
     current_client_name = get_client_name()
-
     loaded_settings = la2_bot.config.hud_settings.load_hud_settings(current_client_name)
     loaded_button_states = la2_bot.config.hud_settings.load_button_states(current_client_name)
-
     heal_interval_seconds = loaded_settings.get("heal_interval_seconds", 15.0)
     loot_repeat_count = loaded_settings.get(
         "loot_repeat_count",
@@ -81,9 +77,10 @@ def create_pause_overlay(root, pause_event, hud_settings_module):
             bot_flags[key] = value
 
     # Два независимых сценария anti-aggro живут в активном config_*.py.
+    # Если параметров ещё нет (чистый первый запуск), создаём их выключенными.
     scenario_defaults = {
-        'THREAT_SCENARIO_KILL_ENABLED': True,
-        'THREAT_SCENARIO_FULL_HP_ENABLED': True,
+        'THREAT_SCENARIO_KILL_ENABLED': False,
+        'THREAT_SCENARIO_FULL_HP_ENABLED': False,
     }
     missing_scenarios = {
         name: default
@@ -97,10 +94,10 @@ def create_pause_overlay(root, pause_event, hud_settings_module):
             print(f"[Overlay] Не удалось добавить anti-aggro scenario defaults в конфиг: {exc}")
 
     bot_flags['anti_agr_kill'] = bool(
-        getattr(config, 'THREAT_SCENARIO_KILL_ENABLED', True)
+        getattr(config, 'THREAT_SCENARIO_KILL_ENABLED', False)
     )
     bot_flags['anti_agr_full_hp'] = bool(
-        getattr(config, 'THREAT_SCENARIO_FULL_HP_ENABLED', True)
+        getattr(config, 'THREAT_SCENARIO_FULL_HP_ENABLED', False)
     )
     bot_flags['anti_agr'] = bool(
         bot_flags['anti_agr_kill'] or bot_flags['anti_agr_full_hp']
@@ -110,7 +107,6 @@ def create_pause_overlay(root, pause_event, hud_settings_module):
 
     if bot_flags.get('always_assist') and pause_event.is_set():
         always_assist.start()
-
     hud_instance = None
     debug_instance = None
     logs_instance = None
@@ -155,7 +151,6 @@ def create_pause_overlay(root, pause_event, hud_settings_module):
             current_client_name,
         )
         update_flag_button_style(flag_key, button_widget)
-
         if flag_key == 'always_assist':
             if bot_flags[flag_key]:
                 if pause_event.is_set():
@@ -191,10 +186,8 @@ def create_pause_overlay(root, pause_event, hud_settings_module):
             'poke': "Подпинывание",
             'always_assist': "ВсегдаАсист",
         }
-
         is_enabled = bot_flags[flag_key]
         base_text = flag_text_map.get(flag_key, flag_key.capitalize())
-
         if is_enabled:
             button_widget.config(
                 bg="#004400",
@@ -223,10 +216,10 @@ def create_pause_overlay(root, pause_event, hud_settings_module):
 
     def _sync_antiaggro_scenario_flags():
         kill_enabled = bool(
-            getattr(config, 'THREAT_SCENARIO_KILL_ENABLED', True)
+            getattr(config, 'THREAT_SCENARIO_KILL_ENABLED', False)
         )
         full_enabled = bool(
-            getattr(config, 'THREAT_SCENARIO_FULL_HP_ENABLED', True)
+            getattr(config, 'THREAT_SCENARIO_FULL_HP_ENABLED', False)
         )
         bot_flags['anti_agr_kill'] = kill_enabled
         bot_flags['anti_agr_full_hp'] = full_enabled
@@ -235,16 +228,15 @@ def create_pause_overlay(root, pause_event, hud_settings_module):
 
     def toggle_antiaggro_scenario(flag_key, config_name, button_widget):
         current = bool(
-            bot_flags.get(flag_key, getattr(config, config_name, True))
+            bot_flags.get(flag_key, getattr(config, config_name, False))
         )
         new_value = not current
 
         bot_flags[flag_key] = new_value
         bot_flags['anti_agr'] = bool(
-            bot_flags.get('anti_agr_kill', True)
-            or bot_flags.get('anti_agr_full_hp', True)
+            bot_flags.get('anti_agr_kill', False)
+            or bot_flags.get('anti_agr_full_hp', False)
         )
-
         try:
             active_config = get_config()
             setattr(active_config, config_name, new_value)
@@ -252,7 +244,6 @@ def create_pause_overlay(root, pause_event, hud_settings_module):
             print(f"[Overlay] Ошибка runtime-переключения {config_name}: {exc}")
 
         update_flag_button_style(flag_key, button_widget)
-
         try:
             la2_bot.config.hud_settings.save_button_state(
                 flag_key,
@@ -261,7 +252,6 @@ def create_pause_overlay(root, pause_event, hud_settings_module):
             )
         except Exception as exc:
             print(f"[Overlay] Не удалось сохранить UI-state {flag_key}: {exc}")
-
         try:
             save_config_values(
                 {config_name: new_value},
@@ -272,7 +262,6 @@ def create_pause_overlay(root, pause_event, hud_settings_module):
 
         _sync_antiaggro_scenario_flags()
         update_flag_button_style(flag_key, button_widget)
-
         try:
             if (
                 config_instance is not None
@@ -338,7 +327,6 @@ def create_pause_overlay(root, pause_event, hud_settings_module):
             bot_flags,
             current_client_name,
         )
-
         current_settings = la2_bot.config.hud_settings.load_hud_settings(
             current_client_name
         )
@@ -348,7 +336,6 @@ def create_pause_overlay(root, pause_event, hud_settings_module):
             current_settings,
             current_client_name,
         )
-
         try:
             if old_buttons_window is not None and old_buttons_window.winfo_exists():
                 old_buttons_window.destroy()
@@ -366,7 +353,6 @@ def create_pause_overlay(root, pause_event, hud_settings_module):
 
         if flagstop_mode.is_flagstop_enabled():
             flagstop_mode.stop_flagstop()
-
             if flagstop_button is not None:
                 flagstop_button.config(
                     text="Флагстоп OFF",
@@ -381,7 +367,6 @@ def create_pause_overlay(root, pause_event, hud_settings_module):
             )
         else:
             flagstop_mode.start_flagstop(pause_event)
-
             if flagstop_button is not None:
                 flagstop_button.config(
                     text="Флагстоп ON",
@@ -402,7 +387,6 @@ def create_pause_overlay(root, pause_event, hud_settings_module):
     root.overrideredirect(True)
     root.attributes("-topmost", True)
     root.wm_attributes("-alpha", config.OVERLAY_ALPHA)
-
     pos_x = loaded_settings.get(
         "pause_overlay_pos_x",
         config.OVERLAY_POSITION_X,
@@ -438,7 +422,6 @@ def create_pause_overlay(root, pause_event, hud_settings_module):
         try:
             is_running = pause_event.is_set()
             text = pause_button.cget('text')
-
             if is_running and text != "Playing":
                 pause_button.config(
                     text="Playing",
@@ -471,7 +454,6 @@ def create_pause_overlay(root, pause_event, hud_settings_module):
     potion_btn = make_flag_button(flags_frame, "potion")
     mp_skill_btn = make_flag_button(flags_frame, "mp_skill")
     next_target_btn = make_flag_button(flags_frame, "next_target")
-
     target_mob_btn = make_flag_button(flags_frame, "target_mob")
 
     skip_damaged_target_btn = make_flag_button(
@@ -535,7 +517,6 @@ def create_pause_overlay(root, pause_event, hud_settings_module):
         command=lambda: toggle_target_count_mode(target_count_mode_btn)
     )
     target_count_mode_btn.pack(side=tk.TOP, anchor='w', pady=(0, 2))
-
     initial_target_count_mode = loaded_button_states.get(
         "target_count_mode",
         1,
@@ -552,7 +533,6 @@ def create_pause_overlay(root, pause_event, hud_settings_module):
         flags_frame,
         "assist_pkm",
     )
-
     altheal_btn = make_flag_button(flags_frame, "altheal")
     buffs_btn = make_flag_button(flags_frame, "buffs")
     heal_btn = make_flag_button(flags_frame, "heal")
@@ -567,7 +547,6 @@ def create_pause_overlay(root, pause_event, hud_settings_module):
         bg="#222222",
         fg="white",
     ).pack(side=tk.LEFT)
-
     heal_interval_var = tk.StringVar(
         value=str(heal_interval_seconds)
     )
@@ -585,7 +564,6 @@ def create_pause_overlay(root, pause_event, hud_settings_module):
             )
             if val <= 0:
                 return
-
             current_settings = (
                 la2_bot.config.hud_settings.load_hud_settings(
                     current_client_name
@@ -617,7 +595,6 @@ def create_pause_overlay(root, pause_event, hud_settings_module):
         bg="#222222",
         fg="white",
     ).pack(side=tk.LEFT)
-
     loot_count_var = tk.StringVar(
         value=str(loot_repeat_count)
     )
@@ -635,7 +612,6 @@ def create_pause_overlay(root, pause_event, hud_settings_module):
             )
             if val < 0:
                 return
-
             current_settings = (
                 la2_bot.config.hud_settings.load_hud_settings(
                     current_client_name
@@ -668,7 +644,6 @@ def create_pause_overlay(root, pause_event, hud_settings_module):
         bg="#222222",
         fg="white",
     ).pack(side=tk.LEFT)
-
     buff_interval_var = tk.StringVar(
         value=str(buff_cycle_interval)
     )
@@ -686,7 +661,6 @@ def create_pause_overlay(root, pause_event, hud_settings_module):
             )
             if val <= 0:
                 return
-
             current_settings = (
                 la2_bot.config.hud_settings.load_hud_settings(
                     current_client_name
@@ -772,7 +746,6 @@ def create_pause_overlay(root, pause_event, hud_settings_module):
 
         panel = tk.Toplevel(root)
         old_buttons_window = panel
-
         panel.title("СтарыеКнопки")
         panel.overrideredirect(True)
         panel.attributes("-topmost", True)
@@ -786,7 +759,6 @@ def create_pause_overlay(root, pause_event, hud_settings_module):
 
         header = tk.Frame(panel, bg="#333333")
         header.pack(fill=tk.X, padx=2, pady=(2, 4))
-
         tk.Label(
             header,
             text="СтарыеКнопки",
@@ -887,7 +859,6 @@ def create_pause_overlay(root, pause_event, hud_settings_module):
 
     def toggle_logs_window():
         nonlocal logs_instance
-
         if (
             logs_instance is None
             or not tk.Toplevel.winfo_exists(logs_instance.root)
@@ -940,7 +911,6 @@ def create_pause_overlay(root, pause_event, hud_settings_module):
         hud_settings_module.reset_hud_settings_to_default(
             client_name
         )
-
         if hud_instance:
             hud_instance.stop()
             hud_instance.root.destroy()
@@ -999,30 +969,28 @@ def is_flag_enabled(flag_name):
             getattr(
                 config,
                 'THREAT_SCENARIO_KILL_ENABLED',
-                True,
+                False,
             )
         )
-
     if flag_name == 'anti_agr_full_hp':
         return bool(
             getattr(
                 config,
                 'THREAT_SCENARIO_FULL_HP_ENABLED',
-                True,
+                False,
             )
         )
-
     if flag_name == 'anti_agr':
         return bool(
             getattr(
                 config,
                 'THREAT_SCENARIO_KILL_ENABLED',
-                True,
+                False,
             )
             or getattr(
                 config,
                 'THREAT_SCENARIO_FULL_HP_ENABLED',
-                True,
+                False,
             )
         )
 
